@@ -1,0 +1,99 @@
+# This .gitignore file is for Unity projects
+
+# OS generated files #
+######################
+.DS_Store
+Thumbs.db
+
+# Unity generated files #
+#########################
+*.csproj
+*.pidb
+*.suo
+*.user
+*.userprefs
+*.tmp
+*.bak
+*.swp
+*.suo
+*.ncb
+*.suo
+*.log
+*.log.*
+*.patch
+*.pidb
+*.pdb
+*.opendb
+*.suo
+*.cache
+*.unityproj
+*.sln
+*.suo
+*.tmp
+*.bak
+*.swp
+*.log
+*.pidb
+*.pdb
+
+# Build results
+###############
+[Ll]ibrary/
+/[Ll]ibrary/
+/[Ll]ibrary/*
+/[Ll]ibrary/ScriptAssemblies/
+/[Ll]ibrary/EditorScriptAssemblies/
+/[Ll]ibrary/ShaderCache/
+/[Ll]ibrary/AssetDatabase/
+/[Ll]ibrary/ArtifactDB/
+/[Ll]ibrary/Hierarchy/
+/[Ll]ibrary/PlayerData/
+/[Ll]ibrary/Temp/
+/[Ll]ibrary/Cache/
+/[Ll]ibrary/Jobs/
+Build/
+/Builds/
+/builds/
+/Build/
+/Builds/
+/builds/
+Assets/AssetBundles/
+/AssetBundles/
+/[Ll]ibrary/AssetImportState/
+/[Ll]ibrary/AssetImportState/Serialized/
+[Ll]ibrary/PrefabUtility/
+[Ll]ibrary/ScriptableObjects/
+[Ll]ibrary/ScriptableObjects/*.cs
+[Ll]ibrary/ScriptableObjects/*.cs.meta
+[Ll]ibrary/ScriptableObjects/*.json
+[Ll]ibrary/ScriptableObjects/*.prefab
+[Ll]ibrary/ScriptableObjects/*.asset
+
+# Unity3D generated meta files #
+###############################
+*.meta
+
+# Unity3D generated files from builds #
+######################################
+/Build/
+/builds/
+/Builds/
+# Temp folder #
+######################################
+/Temp/
+Temp/
+# Unity
+[Ll]ibrary/
+[Tt]emp/
+[Oo]bj/
+[Bb]uild/
+[Bb]uilds/
+[Ll]ogs/
+[Mm]emoryCaptures/
+[Aa]ssets/[Aa]ddressable[Aa]ssets[Dd]ata/*
+![Aas]sets/[Aa]ddressable[Aa]ssets[Dd]ata/*.asset
+
+# OS-specific files
+.DS_Store
+Thumbs.db
+[Tt]emp/
