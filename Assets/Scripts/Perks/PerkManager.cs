@@ -11,20 +11,20 @@ public class PerkManager : MonoBehaviour
     void Start()
     {
         // Example: instantiate perks in storage at the start
-        foreach (var perkData in availablePerks)
-        {
+        //foreach (var perkData in availablePerks)
+        //{
             // Create a new GameObject named "MyObject"
-            GameObject myObject = new GameObject("MyObject");
+       //     GameObject myObject = new GameObject("MyObject");
             // Get the Transform component of the GameObject (all GameObjects have a Transform by default)
-            Transform myTransform = myObject.transform;
+         //   Transform myTransform = myObject.transform;
             // Set the position of the GameObject to (5, 0, 0)
-            myTransform.position = new Vector3(5, 0, 0);
+         //   myTransform.position = new Vector3(5, 0, 0);
             // Set the rotation of the GameObject to (0, 45, 0) degrees
-            myTransform.rotation = Quaternion.Euler(0, 0, 0);
+         //   myTransform.rotation = Quaternion.Euler(0, 0, 0);
             // Set the scale of the GameObject to (2, 2, 2)
-            myTransform.localScale = new Vector3(2, 2, 2);
-            CreatePerk(perkData, myTransform);
-        }
+         //   myTransform.localScale = new Vector3(2, 2, 2);
+         //   CreatePerk(perkData, myTransform);
+       // }
     }
 
     // Create a perk in the specified location (e.g., storage or active area)

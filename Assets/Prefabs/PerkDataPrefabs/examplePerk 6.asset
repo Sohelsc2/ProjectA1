@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9584698cb4389094c96008aad786a9ac, type: 3}
   m_Name: examplePerk 6
   m_EditorClassIdentifier: 
-  perkName: ExampleSquare
+  perkName: ExampleSquare2
   cost: 2
   shapeType: 2
   description: This is an example
