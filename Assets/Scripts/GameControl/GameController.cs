@@ -5,6 +5,7 @@ using System.Threading;
 public class GameController : MonoBehaviour
 {
     [SerializeField] private Transform parentObject; // The object to search under
+    [SerializeField] private DiceManager diceManager; // The object to search under
     private List<Transform> perkList;
     private List<GameObject> ballList;
     public float waitTime = 1f;
@@ -71,7 +72,7 @@ public class GameController : MonoBehaviour
             {
                 // Wait for 0.5 seconds before applying the effect
                 yield return new WaitForSeconds(waitTime);
-                ApplyEffectTriangle(trianglePerk.perkData);
+                yield return StartCoroutine(ApplyEffectTriangle(trianglePerk.perkData));
             }
             else if (perkTransform.TryGetComponent(out CirclePerkButton circlePerk))
             {
@@ -93,28 +94,41 @@ public class GameController : MonoBehaviour
 
 
     // Helper function to apply effects based on the PerkData's effectKey
-    private void ApplyEffectTriangle(PerkData perkData)
+private IEnumerator ApplyEffectTriangle(PerkData perkData)
+{
+    if (perkData == null)
     {
-        if (perkData == null)
-        {
-            Debug.LogWarning("PerkData is null.");
-            return;
-        }
-
-        switch (perkData.effectKey)
-        {
-            case "Example":
-                // Implement speed boost effect
-                Debug.Log("Example");
-                break;
-
-            // Add more cases as needed
-
-            default:
-                Debug.LogWarning($"No effect defined for key: {perkData.effectKey}");
-                break;
-        }
+        Debug.LogWarning("PerkData is null.");
+        yield break; // Use yield break to exit the coroutine
     }
+
+    switch (perkData.effectKey)
+    {
+        case "Example":
+            // Implement speed boost effect
+            Debug.Log("Example");
+            break;
+
+        case "RollDice1To6":
+            // Roll the dice and wait for it to finish
+            Debug.Log("Dice rolling.");
+            yield return StartCoroutine(diceManager.Roll(1, 6));
+            Debug.Log("Dice rolled and effect applied.");
+            break;
+        case "PreventAllBut6":
+            diceManager.Prevent(1);
+            diceManager.Prevent(2);
+            diceManager.Prevent(3);
+            diceManager.Prevent(4);
+            diceManager.Prevent(5);
+            break;
+        // Add more cases as needed
+
+        default:
+            Debug.LogWarning($"No effect defined for key: {perkData.effectKey}");
+            break;
+    }
+}
     private void ApplyEffectCircle(PerkData perkData)
     {
         if (perkData == null)
