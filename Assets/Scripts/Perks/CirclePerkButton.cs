@@ -27,7 +27,7 @@ private void CreateNewPerk(Transform dropZone)
             GameObject newPerk = Instantiate(perkPrefab, dropZone);
 
             // Get the component of the new perk button (TrianglePerkButton)
-            TrianglePerkButton newPerkButton = newPerk.GetComponent<TrianglePerkButton>();
+            CirclePerkButton newPerkButton = newPerk.GetComponent<CirclePerkButton>();
 
             if (newPerkButton != null)
             {
