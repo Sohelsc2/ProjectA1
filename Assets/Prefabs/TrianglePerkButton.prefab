@@ -310,6 +310,7 @@ MonoBehaviour:
   tooltip: {fileID: 2317168882122044766}
   hoverDuration: 1
   storageGrid: {fileID: 0}
+  perkPrefab: {fileID: 4683480569018260226}
 --- !u!1 &4698532582062130368
 GameObject:
   m_ObjectHideFlags: 0

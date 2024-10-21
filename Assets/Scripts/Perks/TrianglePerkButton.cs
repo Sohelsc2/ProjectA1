@@ -12,9 +12,41 @@ public class TrianglePerkButton : MonoBehaviour, IDragHandler, IBeginDragHandler
     private float hoverTimer = 0f; // Timer for hover
     private bool isHovering = false; // Is the mouse hovering
     public GameObject storageGrid; // The grid under triangle storage
+    [SerializeField] private GameObject perkPrefab; // Reference to the tooltip GameObject
 
     // Store the original position
     private Vector3 originalPosition;
+private void CreateNewPerk(Transform dropZone)
+{
+    // Check if the drop zone has a HorizontalLayoutGroup (or any other logic)
+    if (dropZone != null)
+    {
+        if (perkPrefab != null)
+        {
+            // Instantiate the new perk
+            GameObject newPerk = Instantiate(perkPrefab, dropZone);
+
+            // Get the component of the new perk button (TrianglePerkButton)
+            TrianglePerkButton newPerkButton = newPerk.GetComponent<TrianglePerkButton>();
+
+            if (newPerkButton != null)
+            {
+                // Initialize it with the same perk data
+                newPerkButton.Initialize(perkData);
+            }
+
+            // Optionally: Set position if you want a specific location within the drop zone
+            // newPerk.transform.localPosition = Vector3.zero; // Set to the center of the drop zone or adjust as needed
+
+            // Optionally: Destroy the current perk after creating the new one
+            Destroy(gameObject); // This destroys the current perk button
+        }
+        else
+        {
+            Debug.LogWarning("Perk prefab not found!");
+        }
+    }
+}
 
     public void Initialize(PerkData data)
     {
@@ -62,15 +94,7 @@ public void OnEndDrag(PointerEventData eventData)
     Transform dropZone = GetDropZone(eventData.position);
     if (dropZone != null)
     {
-        // Snap to the position where it's dropped within the storage area
-        RectTransform dropZoneRect = dropZone.GetComponent<RectTransform>();
-        Vector3 localPoint;
-        // Convert screen position to local point in the drop zone
-        RectTransformUtility.ScreenPointToLocalPointInRectangle(dropZoneRect, eventData.position, null, out Vector2 localPoint2D);
-        localPoint = new Vector3(localPoint2D.x, localPoint2D.y, 0); // Convert Vector2 to Vector3
-
-        // Set the position to the new local point
-        transform.localPosition = localPoint;
+        CreateNewPerk(dropZone);
     }
     else
     {
@@ -88,17 +112,46 @@ public void OnEndDrag(PointerEventData eventData)
     HideTooltip(); // Hide the tooltip on drag end
 }
 
+private bool HasChildren(RectTransform rectTransform)
+{
+    return rectTransform.childCount > 0; // Returns true if there are children, false otherwise
+}
+private Transform GetDropZone(Vector3 mousePosition)
+{
+    // Loop through all objects with PerkType
+    PerkType[] perkTypes = FindObjectsOfType<PerkType>();
 
-    private Transform GetDropZone(Vector3 position)
+    foreach (PerkType perkType in perkTypes)
     {
-        // You can add logic here to determine if the position is inside the specific storage areas
-        // For now, return null to avoid placing the perk anywhere
-        // Implement actual drop zone detection based on your layout
-        // For example:
-        // if (Physics2D.OverlapPoint(position)) return someStorageTransform;
+        // Check if this perk type matches the shape of the dragged perk
+        if (perkType.shapeType != this.perkData.shapeType) // Assuming perkData is accessible
+            continue;
 
-        return null; // Replace with logic to check if the position is within a valid storage area
+        // Get the RectTransform of the current perkType object
+        RectTransform rectTransform = perkType.GetComponent<RectTransform>();
+
+        // Check if the mouse position is within the bounds of this RectTransform
+        if (RectTransformUtility.RectangleContainsScreenPoint(rectTransform, mousePosition))
+        {
+            if (HasChildren(rectTransform))
+                {
+                    // You can handle logic here for when the drop zone has children
+                }else{
+                    return rectTransform; // Return the matching drop zone
+                }
+        }
     }
+
+    return null; // No valid drop zone found
+}
+
+
+
+
+public ShapeType GetShapeType()
+{
+    return perkData.shapeType; // Assuming perkData has a shapeType property
+}
 
     private void ShowTooltip()
     {
