@@ -2203,6 +2203,18 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
+      - m_Target: {fileID: 1645405734}
+        m_TargetAssemblyTypeName: DiceManager, Assembly-CSharp
+        m_MethodName: Reset
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
       - m_Target: {fileID: 724863382}
         m_TargetAssemblyTypeName: PanelToggler, Assembly-CSharp
         m_MethodName: TogglePanel
@@ -5843,6 +5855,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   dieValueText: {fileID: 744088195}
   sumText: {fileID: 986973958}
+  totalRolls: 0
 --- !u!4 &1645405735
 Transform:
   m_ObjectHideFlags: 0
@@ -5897,6 +5910,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 67f51f804ec0e3846bb9f12a06349b3a, type: 2}
   - {fileID: 11400000, guid: 8d0191285bcb67c4dbd548ed7e289454, type: 2}
   - {fileID: 11400000, guid: f3737972a19905d4294cf469c19f72f2, type: 2}
+  - {fileID: 11400000, guid: 6123b78e1f2f19b4985fd4bfec68f86a, type: 2}
   storageManager: {fileID: 1343659517}
 --- !u!4 &1647874156
 Transform:

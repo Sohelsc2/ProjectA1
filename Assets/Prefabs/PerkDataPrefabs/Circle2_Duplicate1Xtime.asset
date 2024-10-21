@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9584698cb4389094c96008aad786a9ac, type: 3}
   m_Name: Circle2_Duplicate1Xtime
   m_EditorClassIdentifier: 
-  perkName: Duplicate
+  perkName: Duplicate one X
   cost: 2
   shapeType: 1
-  description: This duplicates all Balls
-  effectKey: Duplicate
+  description: Duplicates one Ball X times
+  effectKey: Duplicate1XTimes
