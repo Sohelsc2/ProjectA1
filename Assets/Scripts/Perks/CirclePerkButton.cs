@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 public class CirclePerkButton : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDragHandler, IPointerEnterHandler, IPointerExitHandler
 {
-    private PerkData perkData; // Store the perk data
+    public PerkData perkData; // Store the perk data
     [SerializeField] private TextMeshProUGUI perkText; // Reference to the TextMeshPro component
     [SerializeField] private GameObject tooltip; // Reference to the tooltip GameObject
     [SerializeField] private float hoverDuration = 1f; // Duration to show tooltip

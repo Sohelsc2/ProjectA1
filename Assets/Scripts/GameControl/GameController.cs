@@ -1,76 +1,189 @@
 using UnityEngine;
-
+using System.Collections.Generic;
+using System.Collections;
+using System.Threading;
 public class GameController : MonoBehaviour
 {
-    public PerkManager perkManager;   // Reference to the PerkManager
-    public bool isGameRunning = false;  // To track if the game is already running
+    [SerializeField] private Transform parentObject; // The object to search under
+    private List<Transform> perkList;
+    private List<GameObject> ballList;
+    public float waitTime = 1f;
 
-    // Method to start the game (triggered by the start button)
-    public void StartGame()
+    public void CreatePerkList()
     {
-        if (!isGameRunning)
+        List<Transform> perkTypeChildren = FindAllPerkTypeChildren();
+        
+        foreach (Transform perk in perkTypeChildren)
         {
-            Debug.Log("Game started!");
-            isGameRunning = true;
+            Debug.Log($"Found PerkType: {perk.name}");
+        }
+        perkList = perkTypeChildren;
+    }
+    // Function to find all child objects with the PerkType component
+    public List<Transform> FindAllPerkTypeChildren()
+    {
+        List<Transform> perkTypeChildren = new List<Transform>();
+        SearchForPerkTypeChildren(parentObject, perkTypeChildren);
+        return perkTypeChildren;
+    }
 
-            // Loop through all the active slots and apply perks in order
-            foreach (Slot slot in perkManager.activeSlots)
+    // Recursive function to search for PerkType components
+    private void SearchForPerkTypeChildren(Transform currentTransform, List<Transform> result)
+    {
+        // Check if the current transform has the PerkType component
+        if (currentTransform.GetComponent<TrianglePerkButton>() != null)
+        {
+            result.Add(currentTransform);
+        }
+        if (currentTransform.GetComponent<CirclePerkButton>() != null)
+        {
+            result.Add(currentTransform);
+        }
+        if (currentTransform.GetComponent<SquarePerkButton>() != null)
+        {
+            result.Add(currentTransform);
+        }
+        // Iterate through all children of the current transform
+        foreach (Transform child in currentTransform)
+        {
+            SearchForPerkTypeChildren(child, result); // Recursive call for each child
+        }
+    }
+    public void ApplyPerkEffects(){
+        StartCoroutine(ApplyPerkEffectsNumerator());
+    }
+   public IEnumerator ApplyPerkEffectsNumerator()
+{
+    foreach (Transform perkTransform in perkList)
+    {
+        FindAllBalls(); // Presumably, this doesn't require waiting
+
+        if (perkTransform != null)
+        {
+            // Check which type of perk button the Transform has
+            if (perkTransform.TryGetComponent(out SquarePerkButton squarePerk))
             {
-                // Get the Perk in this slot
-                Perk perkInSlot = slot.GetComponentInChildren<Perk>();
-
-                // If there is a perk in this slot and it's active, apply its effect
-                if (perkInSlot != null && perkInSlot.isActive)
-                {
-                    perkInSlot.ApplyEffect();
-                }
-                else
-                {
-                    Debug.Log("No active perk in slot: " + slot.name);
-                }
+                // Wait for 0.5 seconds before applying the effect
+                yield return new WaitForSeconds(waitTime);
+                ApplyEffectSquare(squarePerk.perkData);
             }
-
-            // After applying the effects, you can trigger further gameplay logic
-            OnGameStarted();
+            else if (perkTransform.TryGetComponent(out TrianglePerkButton trianglePerk))
+            {
+                // Wait for 0.5 seconds before applying the effect
+                yield return new WaitForSeconds(waitTime);
+                ApplyEffectTriangle(trianglePerk.perkData);
+            }
+            else if (perkTransform.TryGetComponent(out CirclePerkButton circlePerk))
+            {
+                // Wait for 0.5 seconds before applying the effect
+                yield return new WaitForSeconds(waitTime);
+                ApplyEffectCircle(circlePerk.perkData);
+            }
+            else
+            {
+                Debug.LogWarning("Unknown perk type on " + perkTransform.name);
+            }
         }
         else
         {
-            Debug.Log("Game is already running.");
+            Debug.LogWarning("Perk Transform is null in perkList.");
         }
     }
+}
 
-    // Called after the game starts and perks are applied
-    private void OnGameStarted()
+
+    // Helper function to apply effects based on the PerkData's effectKey
+    private void ApplyEffectTriangle(PerkData perkData)
     {
-        // Add any post-start logic here (e.g., countdowns, player movement, etc.)
-        Debug.Log("All perks applied, game logic starts.");
-    }
+        if (perkData == null)
+        {
+            Debug.LogWarning("PerkData is null.");
+            return;
+        }
 
-    // Method to reset the game (optional)
-    public void ResetGame()
+        switch (perkData.effectKey)
+        {
+            case "Example":
+                // Implement speed boost effect
+                Debug.Log("Example");
+                break;
+
+            // Add more cases as needed
+
+            default:
+                Debug.LogWarning($"No effect defined for key: {perkData.effectKey}");
+                break;
+        }
+    }
+    private void ApplyEffectCircle(PerkData perkData)
     {
-        if (isGameRunning)
+        if (perkData == null)
         {
-            Debug.Log("Game reset.");
-            isGameRunning = false;
-
-            // Clear any applied perk effects or reset game state here
-            foreach (Slot slot in perkManager.activeSlots)
-            {
-                Perk perkInSlot = slot.GetComponentInChildren<Perk>();
-                if (perkInSlot != null)
-                {
-                    // Optionally, you could deactivate or reset each perk here
-                    perkInSlot.isActive = false;  // Deactivate the perk
-                    Debug.Log(perkInSlot.perkData.perkName + " deactivated.");
-                }
-            }
-
-            // Reset additional game logic here if needed
+            Debug.LogWarning("PerkData is null.");
+            return;
         }
-        else
+
+        switch (perkData.effectKey)
         {
-            Debug.Log("Game is not running.");
+            case "Example":
+                // Implement speed boost effect
+                Debug.Log("Example");
+                break;
+            case "Duplicate":
+                Debug.Log("Activating Duplicate");
+
+                foreach (GameObject ball in ballList)
+                    {
+                        // Get the original position and rotation of the ball
+                        Vector3 originalPosition = ball.transform.position;
+                        Quaternion originalRotation = ball.transform.rotation;
+
+                        // Instantiate a clone at the same position and rotation
+                        GameObject ballClone = Instantiate(ball, originalPosition, originalRotation);
+
+                        // Optionally, give the clone a new name or modify its properties
+                        ballClone.name = ball.name + "_Clone";
+                    }
+                break;
+            // Add more cases as needed
+
+            default:
+                Debug.LogWarning($"No effect defined for key: {perkData.effectKey}");
+                break;
         }
     }
+    private void ApplyEffectSquare(PerkData perkData)
+    {
+        if (perkData == null)
+        {
+            Debug.LogWarning("PerkData is null.");
+            return;
+        }
+
+        switch (perkData.effectKey)
+        {
+            case "Example":
+                // Implement speed boost effect
+                Debug.Log("Example");
+                break;
+
+            // Add more cases as needed
+
+            default:
+                Debug.LogWarning($"No effect defined for key: {perkData.effectKey}");
+                break;
+        }
+    }
+        public void FindAllBalls()
+    {
+        // Find all GameObjects with the tag "Ball"
+        GameObject[] ballArray = GameObject.FindGameObjectsWithTag("Ball");
+
+        // Convert the array to a list
+        List<GameObject> currentBallList = new List<GameObject>(ballArray);
+
+        // Return the list
+        ballList = currentBallList;
+    }
+
 }
