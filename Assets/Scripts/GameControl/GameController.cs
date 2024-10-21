@@ -117,6 +117,37 @@ private IEnumerator ApplyEffectTriangle(PerkData perkData)
             Debug.Log("Activating RollDice1To6");
             yield return StartCoroutine(diceManager.Roll(1, 6));
             break;
+         case "Never1RollDice1To6":
+            // Roll the dice and wait for it to finish
+            Debug.Log("Activating Never1RollDice1To6");
+            diceManager.Prevent(1);
+            yield return StartCoroutine(diceManager.Roll(1, 6));
+            break;
+         case "Never2RollDice1To6":
+            // Roll the dice and wait for it to finish
+            Debug.Log("Activating Never1RollDice2To6");
+            diceManager.Prevent(2);
+            yield return StartCoroutine(diceManager.Roll(1, 6));
+            break;
+         case "Never3RollDice1To6":
+            // Roll the dice and wait for it to finish
+            Debug.Log("Activating Never1RollDice3To6");
+            diceManager.Prevent(3);
+            yield return StartCoroutine(diceManager.Roll(1, 6));
+            break;
+         case "Never4RollDice1To6":
+            // Roll the dice and wait for it to finish
+            Debug.Log("Activating Never1RollDice4To6");
+            diceManager.Prevent(4);
+            yield return StartCoroutine(diceManager.Roll(1, 6));
+            break;
+         case "Never5RollDice1To6":
+            // Roll the dice and wait for it to finish
+            Debug.Log("Activating Never1RollDice5To6");
+            diceManager.Prevent(5);
+            yield return StartCoroutine(diceManager.Roll(1, 6));
+            break;
+
         case "PreventAllBut6":
             Debug.Log("Activating PreventAllBut6");
             diceManager.Prevent(1);

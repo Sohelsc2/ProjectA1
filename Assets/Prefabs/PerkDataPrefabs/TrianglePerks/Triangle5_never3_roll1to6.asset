@@ -1,0 +1,19 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9584698cb4389094c96008aad786a9ac, type: 3}
+  m_Name: Triangle5_never3_roll1to6
+  m_EditorClassIdentifier: 
+  perkName: Never 3 - Roll
+  cost: 2
+  shapeType: 0
+  description: Never roll a 3. Roll a 6 sided die
+  effectKey: Never3RollDice1To6

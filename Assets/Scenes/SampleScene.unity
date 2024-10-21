@@ -5904,9 +5904,6 @@ MonoBehaviour:
   perkGrid: {fileID: 13862300}
   rerollButton: {fileID: 1485730525}
   availablePerks:
-  - {fileID: 11400000, guid: 3f2730f94d205634bae38fd5ddd8bc2c, type: 2}
-  - {fileID: 11400000, guid: 073d239b5e2ecd9468b9d4a391770629, type: 2}
-  - {fileID: 11400000, guid: a6a5e4776b0895b40b061a2c978f2024, type: 2}
   - {fileID: 11400000, guid: 67f51f804ec0e3846bb9f12a06349b3a, type: 2}
   - {fileID: 11400000, guid: 8d0191285bcb67c4dbd548ed7e289454, type: 2}
   - {fileID: 11400000, guid: f3737972a19905d4294cf469c19f72f2, type: 2}
