@@ -13,9 +13,11 @@ public class TrianglePerkButton : MonoBehaviour, IDragHandler, IBeginDragHandler
     private bool isHovering = false; // Is the mouse hovering
     public GameObject storageGrid; // The grid under triangle storage
     [SerializeField] private GameObject perkPrefab; // Reference to the tooltip GameObject
-
+    private Canvas dragCanvas;       // The higher-sorting canvas for dragging
+    private Transform originalParent;
     // Store the original position
     private Vector3 originalPosition;
+    private Vector3 originalScale;
 private void CreateNewPerk(Transform dropZone)
 {
     // Check if the drop zone has a HorizontalLayoutGroup (or any other logic)
@@ -25,7 +27,7 @@ private void CreateNewPerk(Transform dropZone)
         {
             // Instantiate the new perk
             GameObject newPerk = Instantiate(perkPrefab, dropZone);
-
+            newPerk.name = perkPrefab.name;
             // Get the component of the new perk button (TrianglePerkButton)
             TrianglePerkButton newPerkButton = newPerk.GetComponent<TrianglePerkButton>();
 
@@ -64,6 +66,17 @@ private void CreateNewPerk(Transform dropZone)
         }
     }
 
+private void Start(){
+    GameObject dragCanvasObject = GameObject.FindWithTag("DragCanvas");
+        if (dragCanvasObject != null)
+        {
+            dragCanvas = dragCanvasObject.GetComponent<Canvas>();
+        }
+        else
+        {
+            Debug.LogWarning("No Canvas found with the 'DragCanvas' tag. Please ensure your canvas is tagged correctly.");
+        }
+}
     private void Update()
     {
         if (isHovering)
@@ -78,8 +91,12 @@ private void CreateNewPerk(Transform dropZone)
 
     public void OnBeginDrag(PointerEventData eventData)
     {
-        // Start dragging logic
-        //transform.SetAsLastSibling(); // Bring the button to the front
+        // Save the original parent canvas
+        originalParent = transform.parent;
+        originalScale = transform.localScale;
+
+        // Temporarily move the dragged object to the higher-sorting drag canvas
+        transform.SetParent(dragCanvas.transform, true);
     }
 
     public void OnDrag(PointerEventData eventData)
@@ -94,6 +111,8 @@ public void OnEndDrag(PointerEventData eventData)
     Transform dropZone = GetDropZone(eventData.position);
     if (dropZone != null)
     {
+                transform.localScale = originalScale;
+
         CreateNewPerk(dropZone);
     }
     else
@@ -101,6 +120,10 @@ public void OnEndDrag(PointerEventData eventData)
         // If not dropped in a valid area, revert to the original position
         // also "reset" the Grid by de- and reactivating it to restore the proper location
         transform.localPosition = originalPosition;
+
+        transform.SetParent(originalParent, true);
+        transform.localScale = originalScale;
+
         storageGrid.GetComponent<HorizontalLayoutGroup>().enabled = false;
         storageGrid.GetComponent<HorizontalLayoutGroup>().enabled = true;
         
@@ -203,7 +226,6 @@ public ShapeType GetShapeType()
     public void OnClick()
     {
         // Logic to handle what happens when this button is clicked
-        Debug.Log($"Clicked on perk: {perkData.perkName}");
         
         // Here, you can call a method in StorageManager or whatever you need
     }

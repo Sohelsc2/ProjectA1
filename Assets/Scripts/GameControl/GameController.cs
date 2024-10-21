@@ -133,17 +133,22 @@ public class GameController : MonoBehaviour
                 Debug.Log("Activating Duplicate");
 
                 foreach (GameObject ball in ballList)
-                    {
-                        // Get the original position and rotation of the ball
-                        Vector3 originalPosition = ball.transform.position;
-                        Quaternion originalRotation = ball.transform.rotation;
+                {
+                    // Get the original position, rotation, and parent of the ball
+                    Vector3 originalPosition = ball.transform.position;
+                    Quaternion originalRotation = ball.transform.rotation;
+                    Transform originalParent = ball.transform.parent; // Get the parent of the original ball
 
-                        // Instantiate a clone at the same position and rotation
-                        GameObject ballClone = Instantiate(ball, originalPosition, originalRotation);
+                    // Instantiate a clone at the same position and rotation
+                    GameObject ballClone = Instantiate(ball, originalPosition, originalRotation);
 
-                        // Optionally, give the clone a new name or modify its properties
-                        ballClone.name = ball.name + "_Clone";
-                    }
+                    // Set the clone's parent to the original ball's parent
+                    ballClone.transform.SetParent(originalParent);
+
+                    // Optionally, give the clone a new name or modify its properties
+                    ballClone.name = ball.name + "_Clone";
+                }
+
                 break;
             // Add more cases as needed
 

@@ -62,16 +62,6 @@ public class ShopManager : MonoBehaviour
     {
         // Try to add the perk to the appropriate storage
         bool addedToStorage = storageManager.TryAddPerkToStorage(perkData, perkButtonObj);
-
-        if (addedToStorage)
-        {
-            // You can handle successful purchase logic here (e.g., deduct currency, etc.)
-            Debug.Log("Perk added to storage successfully.");
-        }
-        else
-        {
-            Debug.Log("Storage is full for this perk type.");
-        }
     }
 
     private void RerollPerks()
