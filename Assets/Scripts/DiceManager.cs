@@ -10,10 +10,11 @@ public TextMeshProUGUI dieValueText; // Text to display die value
     public TextMeshProUGUI sumText; // Text to display sum of rolls
     public int totalRolls = 0; // Sum of all rolls
     private List<int> preventedValues = new List<int>(); // List to hold prevented values
-
+    public int rollCount=1;
     // Function to roll the die
     public IEnumerator Roll(int minValue, int maxValue)
     {
+        for (int roll = 0; roll < rollCount; roll++){
         int rollValue;
         // Roll the die 10 times within 1 second
         for (int i = 0; i < 10; i++)
@@ -24,7 +25,7 @@ public TextMeshProUGUI dieValueText; // Text to display die value
         // Force a layout refresh to ensure text updates are shown immediately
         Canvas.ForceUpdateCanvases();
 
-        yield return new WaitForSeconds(0.05f); // Wait for a short duration between updates
+        yield return new WaitForSeconds(0.05f/(float)rollCount); // Wait for a short duration between updates
         }
         // Roll until we get a value that isn't prevented
         do
@@ -44,6 +45,7 @@ public TextMeshProUGUI dieValueText; // Text to display die value
         totalRolls += rollValue;
         sumText.text = "Sum of all rolls: " + totalRolls; // Update sum text
     }
+    }
 
     // Function to prevent a specific value
     public void Prevent(int preventedValue)
@@ -58,6 +60,7 @@ public TextMeshProUGUI dieValueText; // Text to display die value
         Debug.LogWarning($"Resetting DiceManager");
         ClearAllPreventedValues();
         ResetTotalRoll();
+        ResetRollCount();
     }
     // Function to clear a specific prevented value
     public void ClearPreventedValue(int valueToClear)
@@ -68,7 +71,10 @@ public TextMeshProUGUI dieValueText; // Text to display die value
     {
         totalRolls=0; // Remove the specified value from the list
     }
-    // Function to clear all prevented values if needed
+    public void ResetRollCount()
+    {
+        rollCount=1; // Remove the specified value from the list
+    }    // Function to clear all prevented values if needed
     public void ClearAllPreventedValues()
     {
         preventedValues.Clear(); // Clear the entire list
@@ -87,7 +93,7 @@ private IEnumerator HighlightFinalValue(int finalValue)
     dieValueText.fontSize *= 1.3f; // Increase size by 10%
 
     // Display for 0.5 seconds
-    yield return new WaitForSeconds(0.5f);
+    yield return new WaitForSeconds(0.5f/(float)rollCount);
 
     // Revert changes to original properties
     dieValueText.fontStyle = originalFontStyle;

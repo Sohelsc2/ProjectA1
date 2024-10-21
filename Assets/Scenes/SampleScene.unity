@@ -5856,6 +5856,7 @@ MonoBehaviour:
   dieValueText: {fileID: 744088195}
   sumText: {fileID: 986973958}
   totalRolls: 0
+  rollCount: 1
 --- !u!4 &1645405735
 Transform:
   m_ObjectHideFlags: 0
@@ -5911,6 +5912,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 36146cd639e0cae46bf083d8fcab3354, type: 2}
   - {fileID: 11400000, guid: b477c038f179ee54eb1075837718c4fe, type: 2}
   - {fileID: 11400000, guid: 483467f392bf8dd41889c49e041a7a9c, type: 2}
+  - {fileID: 11400000, guid: 2cd2de12e7909a34fbe7baf72a80ed39, type: 2}
   - {fileID: 11400000, guid: 67f51f804ec0e3846bb9f12a06349b3a, type: 2}
   - {fileID: 11400000, guid: 6123b78e1f2f19b4985fd4bfec68f86a, type: 2}
   storageManager: {fileID: 1343659517}

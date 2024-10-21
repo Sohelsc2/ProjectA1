@@ -112,10 +112,16 @@ private IEnumerator ApplyEffectTriangle(PerkData perkData)
             Debug.Log("Example");
             break;
 
-        case "RollDice1To6":
+        case "RollTwoDice1To6":
             // Roll the dice and wait for it to finish
-            Debug.Log("Activating RollDice1To6");
+            Debug.Log("Activating RollTwoDice1To6");
             yield return StartCoroutine(diceManager.Roll(1, 6));
+            yield return StartCoroutine(diceManager.Roll(1, 6));
+            break;
+        case "DoubleRolls":
+            // Roll the dice and wait for it to finish
+            Debug.Log("Activating DoubleRolls");
+            diceManager.rollCount *=2;
             break;
          case "Never1RollDice1To6":
             // Roll the dice and wait for it to finish
