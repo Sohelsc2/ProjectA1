@@ -16,4 +16,4 @@ MonoBehaviour:
   cost: 2
   shapeType: 0
   description: Never roll a 5. Roll a 6 sided die
-  effectKey: Never4RollDice1To6
+  effectKey: Never5RollDice1To6
