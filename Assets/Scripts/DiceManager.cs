@@ -8,7 +8,7 @@ public class DiceManager : MonoBehaviour
 {
 public TextMeshProUGUI dieValueText; // Text to display die value
     public TextMeshProUGUI sumText; // Text to display sum of rolls
-    private int totalRolls = 0; // Sum of all rolls
+    public int totalRolls = 0; // Sum of all rolls
     private List<int> preventedValues = new List<int>(); // List to hold prevented values
 
     // Function to roll the die
@@ -54,12 +54,20 @@ public TextMeshProUGUI dieValueText; // Text to display die value
         }
     }
 
+    public void Reset(){
+        Debug.LogWarning($"Resetting DiceManager");
+        ClearAllPreventedValues();
+        ResetTotalRoll();
+    }
     // Function to clear a specific prevented value
     public void ClearPreventedValue(int valueToClear)
     {
         preventedValues.Remove(valueToClear); // Remove the specified value from the list
     }
-
+    public void ResetTotalRoll()
+    {
+        totalRolls=0; // Remove the specified value from the list
+    }
     // Function to clear all prevented values if needed
     public void ClearAllPreventedValues()
     {

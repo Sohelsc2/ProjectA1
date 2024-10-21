@@ -9,7 +9,10 @@ public class GameController : MonoBehaviour
     private List<Transform> perkList;
     private List<GameObject> ballList;
     public float waitTime = 1f;
-
+    private int totalDiceValue;
+    private Vector3 originalPosition;
+    private Quaternion originalRotation;
+    private Transform originalParent;
     public void CreatePerkList()
     {
         List<Transform> perkTypeChildren = FindAllPerkTypeChildren();
@@ -58,7 +61,7 @@ public class GameController : MonoBehaviour
     foreach (Transform perkTransform in perkList)
     {
         FindAllBalls(); // Presumably, this doesn't require waiting
-
+        totalDiceValue=diceManager.totalRolls;
         if (perkTransform != null)
         {
             // Check which type of perk button the Transform has
@@ -111,11 +114,11 @@ private IEnumerator ApplyEffectTriangle(PerkData perkData)
 
         case "RollDice1To6":
             // Roll the dice and wait for it to finish
-            Debug.Log("Dice rolling.");
+            Debug.Log("Activating RollDice1To6");
             yield return StartCoroutine(diceManager.Roll(1, 6));
-            Debug.Log("Dice rolled and effect applied.");
             break;
         case "PreventAllBut6":
+            Debug.Log("Activating PreventAllBut6");
             diceManager.Prevent(1);
             diceManager.Prevent(2);
             diceManager.Prevent(3);
@@ -145,13 +148,12 @@ private IEnumerator ApplyEffectTriangle(PerkData perkData)
                 break;
             case "Duplicate":
                 Debug.Log("Activating Duplicate");
-
                 foreach (GameObject ball in ballList)
                 {
                     // Get the original position, rotation, and parent of the ball
-                    Vector3 originalPosition = ball.transform.position;
-                    Quaternion originalRotation = ball.transform.rotation;
-                    Transform originalParent = ball.transform.parent; // Get the parent of the original ball
+                    originalPosition = ball.transform.position;
+                    originalRotation = ball.transform.rotation;
+                    originalParent = ball.transform.parent; // Get the parent of the original ball
 
                     // Instantiate a clone at the same position and rotation
                     GameObject ballClone = Instantiate(ball, originalPosition, originalRotation);
@@ -164,7 +166,28 @@ private IEnumerator ApplyEffectTriangle(PerkData perkData)
                 }
 
                 break;
-            // Add more cases as needed
+            case "Duplicate1XTimes":
+                Debug.Log("Activating Duplicate1XTimes");
+                GameObject randomBall = ballList[Random.Range(0, ballList.Count)];
+
+                // Get the original position, rotation, and parent of the randomly selected ball
+                originalPosition = randomBall.transform.position;
+                originalRotation = randomBall.transform.rotation;
+                originalParent = randomBall.transform.parent; // Get the parent of the original ball
+
+                // Clone the selected ball X times
+                for (int i = 0; i < totalDiceValue; i++)
+                {
+                    // Instantiate a clone at the same position and rotation
+                    GameObject ballClone = Instantiate(randomBall, originalPosition, originalRotation);
+
+                    // Set the clone's parent to the original ball's parent
+                    ballClone.transform.SetParent(originalParent);
+
+                    // Optionally, give the clone a new name or modify its properties
+                    ballClone.name = randomBall.name + "_Clone_" + (i + 1); // Optional: differentiate clones by index
+                }
+                break;
 
             default:
                 Debug.LogWarning($"No effect defined for key: {perkData.effectKey}");

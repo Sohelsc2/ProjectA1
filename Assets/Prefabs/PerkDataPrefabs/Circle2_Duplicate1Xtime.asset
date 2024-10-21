@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 9584698cb4389094c96008aad786a9ac, type: 3}
-  m_Name: Circle1_Duplicate
+  m_Name: Circle2_Duplicate1Xtime
   m_EditorClassIdentifier: 
   perkName: Duplicate
   cost: 2
