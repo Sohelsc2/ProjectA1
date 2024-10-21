@@ -15,5 +15,5 @@ MonoBehaviour:
   perkName: Double Rolls
   cost: 2
   shapeType: 0
-  description: Doubles all rolls.
+  description: Doubles how often you roll.
   effectKey: DoubleRolls
