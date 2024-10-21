@@ -77,8 +77,8 @@ public void OnEndDrag(PointerEventData eventData)
         // If not dropped in a valid area, revert to the original position
         // also "reset" the Grid by de- and reactivating it to restore the proper location
         transform.localPosition = originalPosition;
-        storageGrid.GetComponent<GridLayoutGroup>().enabled = false;
-        storageGrid.GetComponent<GridLayoutGroup>().enabled = true;
+        storageGrid.GetComponent<HorizontalLayoutGroup>().enabled = false;
+        storageGrid.GetComponent<HorizontalLayoutGroup>().enabled = true;
         
     }
 
