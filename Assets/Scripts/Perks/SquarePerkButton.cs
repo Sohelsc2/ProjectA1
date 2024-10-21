@@ -141,7 +141,19 @@ private Transform GetDropZone(Vector3 mousePosition)
                 }
         }
     }
+    // Loop through all objects with PerkType
+    TrashBin[] trashBins = FindObjectsOfType<TrashBin>();
+    foreach (TrashBin trashBin in trashBins)
+    {
+        // Get the RectTransform of the current perkType object
+        RectTransform rectTransform = trashBin.GetComponent<RectTransform>();
 
+        // Check if the mouse position is within the bounds of this RectTransform
+        if (RectTransformUtility.RectangleContainsScreenPoint(rectTransform, mousePosition))
+        {
+            Destroy(gameObject); // This destroys the current perk button
+        }
+    }
     return null; // No valid drop zone found
 }
 
