@@ -1,18 +1,31 @@
 using UnityEngine;
 using System.Collections.Generic;
 using System.Collections;
-using System.Threading;
 public class GameController : MonoBehaviour
 {
     [SerializeField] private Transform parentObject; // The object to search under
     [SerializeField] private DiceManager diceManager; // The object to search under
+    [SerializeField] private SphereCollector sphereCollector; // The object to search under
     private List<Transform> perkList;
-    private List<GameObject> ballList;
+    public List<GameObject> ballList = new List<GameObject>();
     public float waitTime = 1f;
     private int totalDiceValue;
     private Vector3 originalPosition;
     private Quaternion originalRotation;
     private Transform originalParent;
+    private bool gameIsRunning = false;
+public void StartGame(){
+    StartCoroutine(StartGameFunction());
+}
+    private IEnumerator StartGameFunction()
+    {
+        sphereCollector.InitializeSphere();
+        yield return new WaitForEndOfFrame();
+        diceManager.Reset();
+        CreatePerkList();
+        FindAllBalls();
+        ApplyPerkEffects();
+    }
     public void CreatePerkList()
     {
         List<Transform> perkTypeChildren = FindAllPerkTypeChildren();
@@ -54,7 +67,10 @@ public class GameController : MonoBehaviour
         }
     }
     public void ApplyPerkEffects(){
-        StartCoroutine(ApplyPerkEffectsNumerator());
+        gameIsRunning=!gameIsRunning;
+        if (gameIsRunning){
+            StartCoroutine(ApplyPerkEffectsNumerator());
+        }
     }
    public IEnumerator ApplyPerkEffectsNumerator()
 {
@@ -253,16 +269,22 @@ private IEnumerator ApplyEffectTriangle(PerkData perkData)
                 break;
         }
     }
-        public void FindAllBalls()
+public void FindAllBalls()
+{
+    // Clear the existing list of balls
+    ballList.Clear();
+
+    // Find all GameObjects with the tag "Ball"
+    GameObject[] ballArray = GameObject.FindGameObjectsWithTag("Ball");
+
+        foreach (GameObject ball in ballArray)
     {
-        // Find all GameObjects with the tag "Ball"
-        GameObject[] ballArray = GameObject.FindGameObjectsWithTag("Ball");
-
-        // Convert the array to a list
-        List<GameObject> currentBallList = new List<GameObject>(ballArray);
-
-        // Return the list
-        ballList = currentBallList;
+        // Add only if the ball is active in the hierarchy
+        if (ball != null && ball.activeInHierarchy)
+        {
+            ballList.Add(ball);
+        }
     }
+}
 
 }
