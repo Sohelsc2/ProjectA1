@@ -1,12 +1,14 @@
 using UnityEngine;
-
+using System.Collections.Generic;
+using System.Collections;
 public class SphereController : MonoBehaviour
 {
     public float speed = 5f;  // Speed of the sphere
     private Rigidbody rb;
 
     private Vector3 direction;
-
+    public int damage = 1;
+    public int numberOfDamage=2;
     // Control the randomness in reflection
     public float reflectionAngleVariation = 5f; // Angle variation in degrees
 
@@ -27,6 +29,8 @@ public class SphereController : MonoBehaviour
         Vector3 position = transform.position;
         position.z = 0; // Set Z to 0
         transform.position = position; // Update the position
+        UpdateVelocity();
+
     }
 
     void OnCollisionEnter(Collision collision)
@@ -43,7 +47,39 @@ public class SphereController : MonoBehaviour
             direction = reflectedDirection.normalized;
             rb.velocity = direction * speed;
         }
+        else if (collision.gameObject.CompareTag("Block"))
+        {
+            // Handle collision with a block
+            BlockScript block = collision.gameObject.GetComponent<BlockScript>();
+
+            if (block != null)
+            {
+                // Decrease the block's health
+                StartCoroutine(DealDamage(block));
+                // Optional: Reflect the object or handle other effects when hitting a block
+                Vector3 reflectedDirection = Vector3.Reflect(direction, collision.contacts[0].normal);
+                reflectedDirection = AddRandomAngle(reflectedDirection, reflectionAngleVariation);
+
+                // Update direction and velocity after hitting the block
+                direction = reflectedDirection.normalized;
+                rb.velocity = direction * speed;
+            }
+        }
     }
+    private IEnumerator DealDamage(BlockScript block)
+    {
+    if (numberOfDamage > 1)
+    {
+        block.TakeDamage(damage);
+        numberOfDamage--;
+    }
+    else
+    {
+        block.TakeDamage(damage);
+        Destroy(gameObject);
+        yield return null; // Wait for a frame
+    }
+}
 
     // Function to add a random angle variation to the reflection direction
     private Vector3 AddRandomAngle(Vector3 originalDirection, float maxAngleVariation)
@@ -63,5 +99,10 @@ public class SphereController : MonoBehaviour
         );
 
         return newDirection.normalized; // Return normalized direction
+    }
+    private void UpdateVelocity(){
+        direction = rb.velocity.normalized;
+        direction = new Vector3(direction.x, direction.y, 0);
+        rb.velocity = direction * speed;
     }
 }

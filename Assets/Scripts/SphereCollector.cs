@@ -4,6 +4,7 @@ using System.Collections.Generic;
 public class SphereCollector : MonoBehaviour
 {
     [SerializeField] private GameObject spherePrefab; // Assign the prefab in the inspector
+    public Vector3 targetPosition; // Define the target position in the inspector
 
     private void Start()
     {
@@ -48,4 +49,47 @@ public class SphereCollector : MonoBehaviour
 
         return new Vector3(x, y, z);
     }
+        public void MoveBallsToTarget()
+    {
+        StartCoroutine(MoveBallsCoroutine());
+    }
+
+
+private IEnumerator MoveBallsCoroutine()
+{
+    // Find all GameObjects with the tag "Sphere"
+    GameObject[] balls = GameObject.FindGameObjectsWithTag("Ball");
+    Debug.Log("In this function1");
+
+    // Loop through each ball and move them one by one
+    foreach (GameObject ball in balls)
+    {
+        Rigidbody rb = ball.GetComponent<Rigidbody>();
+        if (rb != null)
+        {
+            // Get the current speed of the ball
+            float speed = rb.velocity.magnitude;
+
+            // Set the direction to positive x and add a random angle in the y direction
+            Vector3 direction = new Vector3(1, 0, 0); // Positive x direction
+            float randomAngle = Random.Range(-45f, 45f); // Random angle in degrees
+            ball.transform.position = targetPosition;
+            float angleInRadians = randomAngle * Mathf.Deg2Rad;
+
+            // Calculate the new direction using the random angle
+            direction = new Vector3(Mathf.Cos(angleInRadians), Mathf.Sin(angleInRadians), 0); // Only modify x and y
+
+            // Set the new velocity while maintaining the speed
+            rb.velocity = direction.normalized * speed;
+
+            // Normalize the direction and set the new velocity
+        }
+
+        Debug.Log("In this function2");
+
+        // Wait
+        yield return new WaitForSeconds(0.001f);
+    }
+}
+
 }

@@ -8,6 +8,7 @@ TagManager:
   - Wall
   - Ball
   - DragCanvas
+  - Block
   layers:
   - Default
   - TransparentFX
