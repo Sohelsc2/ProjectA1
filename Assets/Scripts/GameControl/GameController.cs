@@ -158,25 +158,25 @@ private IEnumerator ApplyEffectTriangle(PerkData perkData)
             break;
          case "Never2RollDice1To6":
             // Roll the dice and wait for it to finish
-            Debug.Log("Activating Never1RollDice2To6");
+            Debug.Log("Activating Never2RollDice1To6");
             diceManager.Prevent(2);
             yield return StartCoroutine(diceManager.Roll(1, 6));
             break;
          case "Never3RollDice1To6":
             // Roll the dice and wait for it to finish
-            Debug.Log("Activating Never1RollDice3To6");
+            Debug.Log("Activating Never3RollDice1To6");
             diceManager.Prevent(3);
             yield return StartCoroutine(diceManager.Roll(1, 6));
             break;
          case "Never4RollDice1To6":
             // Roll the dice and wait for it to finish
-            Debug.Log("Activating Never1RollDice4To6");
+            Debug.Log("Activating Never4RollDice1To6");
             diceManager.Prevent(4);
             yield return StartCoroutine(diceManager.Roll(1, 6));
             break;
          case "Never5RollDice1To6":
             // Roll the dice and wait for it to finish
-            Debug.Log("Activating Never1RollDice5To6");
+            Debug.Log("Activating Never5RollDice1To6");
             diceManager.Prevent(5);
             yield return StartCoroutine(diceManager.Roll(1, 6));
             break;
@@ -190,7 +190,67 @@ private IEnumerator ApplyEffectTriangle(PerkData perkData)
             diceManager.Prevent(5);
             break;
         // Add more cases as needed
-
+         case "Force1":
+            // Roll the dice and wait for it to finish
+            Debug.Log("Activating Force1");
+            yield return StartCoroutine(diceManager.ForceRoll(1, 1));
+            break;
+         case "Force2":
+            // Roll the dice and wait for it to finish
+            Debug.Log("Activating Force2");
+            yield return StartCoroutine(diceManager.ForceRoll(2, 2));
+            break;
+         case "Force3":
+            // Roll the dice and wait for it to finish
+            Debug.Log("Activating Force3");
+            yield return StartCoroutine(diceManager.ForceRoll(3, 3));
+            break;
+         case "Force4":
+            // Roll the dice and wait for it to finish
+            Debug.Log("Activating Force4");
+            yield return StartCoroutine(diceManager.ForceRoll(4, 4));
+            break;
+         case "Force5":
+            // Roll the dice and wait for it to finish
+            Debug.Log("Activating Force5");
+            yield return StartCoroutine(diceManager.ForceRoll(5, 5));
+            break;
+         case "Force6":
+            // Roll the dice and wait for it to finish
+            Debug.Log("Activating Force6");
+            yield return StartCoroutine(diceManager.ForceRoll(6, 6));
+            break;
+         case "10For1":
+            // Roll the dice and wait for it to finish
+            Debug.Log("Activating 10For1");
+            yield return StartCoroutine(diceManager.AcknowledgeRoll(10, 1));
+            break;   
+         case "10For2":
+            // Roll the dice and wait for it to finish
+            Debug.Log("Activating 10For2");
+            yield return StartCoroutine(diceManager.AcknowledgeRoll(10, 2));
+            break;   
+          case "10For3":
+            // Roll the dice and wait for it to finish
+            Debug.Log("Activating 10For3");
+            yield return StartCoroutine(diceManager.AcknowledgeRoll(10, 3));
+            break;   
+          case "10For4":
+            // Roll the dice and wait for it to finish
+            Debug.Log("Activating 10For4");
+            yield return StartCoroutine(diceManager.AcknowledgeRoll(10, 4));
+            break;   
+          case "10For5":
+            // Roll the dice and wait for it to finish
+            Debug.Log("Activating 10For5");
+            yield return StartCoroutine(diceManager.AcknowledgeRoll(10, 5));
+            break;   
+          case "10For6":
+            // Roll the dice and wait for it to finish
+            Debug.Log("Activating 10For6");
+            yield return StartCoroutine(diceManager.AcknowledgeRoll(10, 6));
+            break;   
+            
         default:
             Debug.LogWarning($"No effect defined for key: {perkData.effectKey}");
             break;

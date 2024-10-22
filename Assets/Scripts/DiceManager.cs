@@ -12,6 +12,24 @@ public TextMeshProUGUI dieValueText; // Text to display die value
     private List<int> preventedValues = new List<int>(); // List to hold prevented values
     public int rollCount=1;
     // Function to roll the die
+    private List<int> rolledValues = new List<int>(); // List to hold prevented values
+
+
+    public IEnumerator AcknowledgeRoll(int addedValue, int acknowledgedValue)
+    {
+        foreach (int rolledValue in rolledValues)
+        {
+            if (rolledValue == acknowledgedValue)
+            {
+                // Bold and red for 0.5 seconds
+                dieValueText.text = addedValue.ToString(); // Update die value text
+                Canvas.ForceUpdateCanvases();
+                yield return StartCoroutine(HighlightFinalValue(addedValue));
+                totalRolls += addedValue;
+                sumText.text = "Sum of all rolls: " + totalRolls; // Update sum text            
+            }
+        }
+    }
     public IEnumerator Roll(int minValue, int maxValue)
     {
         for (int roll = 0; roll < rollCount; roll++){
@@ -19,34 +37,56 @@ public TextMeshProUGUI dieValueText; // Text to display die value
         // Roll the die 10 times within 1 second
         for (int i = 0; i < 10; i++)
         {
-        rollValue = Random.Range(minValue, maxValue + 1); // Roll the die
-        dieValueText.text = rollValue.ToString(); // Update die value text
-
-        // Force a layout refresh to ensure text updates are shown immediately
-        Canvas.ForceUpdateCanvases();
+            rollValue = RollingFunction(minValue, maxValue);
 
         yield return new WaitForSeconds(0.05f/(float)rollCount); // Wait for a short duration between updates
         }
         // Roll until we get a value that isn't prevented
         do
         {
-            rollValue = Random.Range(minValue, maxValue + 1); // Roll the die
-            dieValueText.text = rollValue.ToString(); // Update die value text
-            //yield return new WaitForSeconds(0.1f); // Wait for a short duration between updates
+            rollValue = RollingFunction(minValue, maxValue);
         } while (preventedValues.Contains(rollValue)); // Re-roll if the value matches any prevented value
-
-        // Final roll value
-        dieValueText.text = rollValue.ToString(); // Update die value text with final value
 
         // Bold and red for 0.5 seconds
         yield return StartCoroutine(HighlightFinalValue(rollValue));
+        FinalizeRoll(rollValue);
 
+    }
+    }
+    private void FinalizeRoll(int rollValue){
         // Update the total rolls
+        rolledValues.Add(rollValue);
         totalRolls += rollValue;
         sumText.text = "Sum of all rolls: " + totalRolls; // Update sum text
     }
-    }
+private int RollingFunction(int minValue, int maxValue){
+        int rollValue;
+        rollValue = Random.Range(minValue, maxValue + 1); // Roll the die
+        dieValueText.text = rollValue.ToString(); // Update die value text
+        Canvas.ForceUpdateCanvases();
+        return rollValue;
+}
+public IEnumerator ForceRoll(int minValue, int maxValue)
+    {
+        for (int roll = 0; roll < rollCount; roll++){
+        int rollValue;
+        // Roll the die 10 times within 1 second
+        for (int i = 0; i < 10; i++)
+        {
+           rollValue = RollingFunction(minValue, maxValue);
 
+        // Force a layout refresh to ensure text updates are shown immediately
+
+        yield return new WaitForSeconds(0.05f/(float)rollCount); // Wait for a short duration between updates
+        }
+        rollValue = RollingFunction(minValue, maxValue);
+
+        // Bold and red for 0.5 seconds
+        yield return StartCoroutine(HighlightFinalValue(rollValue));
+        FinalizeRoll(rollValue);
+
+    }
+    }
     // Function to prevent a specific value
     public void Prevent(int preventedValue)
     {
@@ -59,6 +99,7 @@ public TextMeshProUGUI dieValueText; // Text to display die value
     public void Reset(){
         Debug.LogWarning($"Resetting DiceManager");
         ClearAllPreventedValues();
+        ClearAllRolledValues();
         ResetTotalRoll();
         ResetRollCount();
     }
@@ -79,7 +120,10 @@ public TextMeshProUGUI dieValueText; // Text to display die value
     {
         preventedValues.Clear(); // Clear the entire list
     }
-
+    public void ClearAllRolledValues()
+    {
+        rolledValues.Clear(); // Clear the entire list
+    }
 private IEnumerator HighlightFinalValue(int finalValue)
 {
     // Store original properties

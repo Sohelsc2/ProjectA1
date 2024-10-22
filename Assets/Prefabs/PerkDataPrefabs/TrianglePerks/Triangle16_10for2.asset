@@ -10,10 +10,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 9584698cb4389094c96008aad786a9ac, type: 3}
-  m_Name: Triangle8_doubleRolls
+  m_Name: Triangle16_10for2
   m_EditorClassIdentifier: 
-  perkName: Double Rolls
+  perkName: 10 for all 2
   cost: 2
   shapeType: 0
-  description: Doubles how often you roll.
-  effectKey: DoubleRolls
+  description: Adds 10 to the total roll value for every 2 that has been rolled.
+  effectKey: 10For2
