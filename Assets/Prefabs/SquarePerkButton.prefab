@@ -259,6 +259,7 @@ GameObject:
   - component: {fileID: 2297914271602021155}
   - component: {fileID: 8138920720094463693}
   - component: {fileID: 7604427041194468995}
+  - component: {fileID: -4458546447280937329}
   m_Layer: 5
   m_Name: SquarePerkButton
   m_TagString: Untagged
@@ -380,8 +381,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ce8ebb2ec35fe0847b7895974c4a8739, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  perkData: {fileID: 0}
   perkText: {fileID: 1516558809689628916}
   tooltip: {fileID: 2515480578125386904}
   hoverDuration: 1
   storageGrid: {fileID: 0}
   perkPrefab: {fileID: 6672664817646652129}
+--- !u!114 &-4458546447280937329
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6672664817646652129}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0078a00782bc51f4d96768a6a7760238, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

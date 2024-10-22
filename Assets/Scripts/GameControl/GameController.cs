@@ -83,6 +83,7 @@ public void StartGame(){
 {
     foreach (Transform perkTransform in perkList)
     {
+    
         FindAllBalls(); // Presumably, this doesn't require waiting
         totalDiceValue=diceManager.totalRolls;
         if (perkTransform != null)
@@ -90,14 +91,17 @@ public void StartGame(){
             // Check which type of perk button the Transform has
             if (perkTransform.TryGetComponent(out SquarePerkButton squarePerk))
             {
-                // Wait for 0.5 seconds before applying the effect
+                
+               // Wait for 0.5 seconds before applying the effect
                 yield return new WaitForSeconds(waitTime);
                 mainCamera.GetComponent<CameraManager>().MoveToPosition2();
+                perkTransform.GetComponent<ButtonHighlighter>().StartHighlight();
                 yield return new WaitForSeconds(waitTime);
                 yield return StartCoroutine(ApplyEffectSquare(squarePerk.perkData));
             }
             else if (perkTransform.TryGetComponent(out TrianglePerkButton trianglePerk))
             {
+                perkTransform.GetComponent<ButtonHighlighter>().StartHighlight();
                 // Wait for 0.5 seconds before applying the effect
                 yield return new WaitForSeconds(waitTime);
                 mainCamera.GetComponent<CameraManager>().MoveToPosition1();
@@ -105,6 +109,7 @@ public void StartGame(){
             }
             else if (perkTransform.TryGetComponent(out CirclePerkButton circlePerk))
             {
+                perkTransform.GetComponent<ButtonHighlighter>().StartHighlight();
                 // Wait for 0.5 seconds before applying the effect
                 yield return new WaitForSeconds(waitTime);
                 mainCamera.GetComponent<CameraManager>().MoveToPosition1();
@@ -124,7 +129,7 @@ public void StartGame(){
 
 
     // Helper function to apply effects based on the PerkData's effectKey
-private IEnumerator ApplyEffectTriangle(PerkData perkData)
+    private IEnumerator ApplyEffectTriangle(PerkData perkData)
 {
     if (perkData == null)
     {
@@ -274,18 +279,12 @@ private IEnumerator ApplyEffectTriangle(PerkData perkData)
                 Debug.Log("Activating Duplicate");
                 foreach (GameObject ball in ballList)
                 {
-                    // Get the original position, rotation, and parent of the ball
                     originalPosition = ball.transform.position;
                     originalRotation = ball.transform.rotation;
-                    originalParent = ball.transform.parent; // Get the parent of the original ball
-
+                    originalParent = ball.transform.parent;
                     // Instantiate a clone at the same position and rotation
                     GameObject ballClone = Instantiate(ball, originalPosition, originalRotation);
-
-                    // Set the clone's parent to the original ball's parent
                     ballClone.transform.SetParent(originalParent);
-
-                    // Optionally, give the clone a new name or modify its properties
                     ballClone.name = ball.name + "_Clone";
                 }
 
@@ -293,27 +292,34 @@ private IEnumerator ApplyEffectTriangle(PerkData perkData)
             case "Duplicate1XTimes":
                 Debug.Log("Activating Duplicate1XTimes");
                 GameObject randomBall = ballList[Random.Range(0, ballList.Count)];
-
-                // Get the original position, rotation, and parent of the randomly selected ball
                 originalPosition = randomBall.transform.position;
                 originalRotation = randomBall.transform.rotation;
-                originalParent = randomBall.transform.parent; // Get the parent of the original ball
-
+                originalParent = randomBall.transform.parent; 
                 // Clone the selected ball X times
                 for (int i = 0; i < totalDiceValue; i++)
                 {
                     // Instantiate a clone at the same position and rotation
                     GameObject ballClone = Instantiate(randomBall, originalPosition, originalRotation);
-
-                    // Set the clone's parent to the original ball's parent
                     ballClone.transform.SetParent(originalParent);
-
-                    // Optionally, give the clone a new name or modify its properties
                     ballClone.name = randomBall.name + "_Clone_" + (i + 1); // Optional: differentiate clones by index
                 }
                 break;
+            case "SpeedBurst":
+                Debug.Log("Activating SpeedBurst");
+                foreach (GameObject ball in ballList)
+                {
+                    ball.GetComponent<SphereController>().speed *= 1+ (float)totalDiceValue/100;
+                }
+                break;
+            case "SlowMotion":
+                Debug.Log("Activating SlowMotion");
+                foreach (GameObject ball in ballList)
+                {
+                    ball.GetComponent<SphereController>().speed /= 1+ (float)totalDiceValue/100;
+                }
+                break;
 
-            default:
+                default:
                 Debug.LogWarning($"No effect defined for key: {perkData.effectKey}");
                 break;
         }

@@ -184,6 +184,7 @@ GameObject:
   - component: {fileID: 2016667150157782657}
   - component: {fileID: 8763900608711946316}
   - component: {fileID: 6609081852073938829}
+  - component: {fileID: -573693839446527749}
   m_Layer: 5
   m_Name: CirclePerkButton
   m_TagString: Untagged
@@ -305,11 +306,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8ace0de841b8c334982585a57d57a7d1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  perkData: {fileID: 0}
   perkText: {fileID: 5289254201273673336}
   tooltip: {fileID: 2806394727459858350}
   hoverDuration: 1
   storageGrid: {fileID: 0}
   perkPrefab: {fileID: 6126726173690813301}
+--- !u!114 &-573693839446527749
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6126726173690813301}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0078a00782bc51f4d96768a6a7760238, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &7423353948585766156
 GameObject:
   m_ObjectHideFlags: 0

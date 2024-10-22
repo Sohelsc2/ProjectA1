@@ -50,6 +50,7 @@ GameObject:
   - component: {fileID: 2363341413854590910}
   - component: {fileID: 1391609250528470261}
   - component: {fileID: 4708791867700075155}
+  - component: {fileID: 5089418537466142613}
   m_Layer: 5
   m_Name: TrianglePerkButton
   m_TagString: Untagged
@@ -177,7 +178,18 @@ MonoBehaviour:
   hoverDuration: 1
   storageGrid: {fileID: 0}
   perkPrefab: {fileID: 4683480569018260226}
-  dragCanvas: {fileID: 0}
+--- !u!114 &5089418537466142613
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4683480569018260226}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0078a00782bc51f4d96768a6a7760238, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &4698532582062130368
 GameObject:
   m_ObjectHideFlags: 0
