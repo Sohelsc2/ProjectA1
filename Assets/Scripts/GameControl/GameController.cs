@@ -6,8 +6,11 @@ public class GameController : MonoBehaviour
     [SerializeField] private Transform parentObject; // The object to search under
     [SerializeField] private DiceManager diceManager; // The object to search under
     [SerializeField] private SphereCollector sphereCollector; // The object to search under
+    [SerializeField] private BlockCollector blockCollector; // The object to search under
+    [SerializeField] private Camera mainCamera; // The object to search under
     private List<Transform> perkList;
     public List<GameObject> ballList = new List<GameObject>();
+    public List<GameObject> blockList = new List<GameObject>();
     public float waitTime = 1f;
     private int totalDiceValue;
     private Vector3 originalPosition;
@@ -20,11 +23,15 @@ public void StartGame(){
     private IEnumerator StartGameFunction()
     {
         sphereCollector.InitializeSphere();
+        blockCollector.SpawnBlocks();
         yield return new WaitForEndOfFrame();
         diceManager.Reset();
         CreatePerkList();
+        FindAllBlocks();
         FindAllBalls();
         ApplyPerkEffects();
+        yield return new WaitForEndOfFrame();
+
     }
     public void CreatePerkList()
     {
@@ -85,19 +92,23 @@ public void StartGame(){
             {
                 // Wait for 0.5 seconds before applying the effect
                 yield return new WaitForSeconds(waitTime);
-                ApplyEffectSquare(squarePerk.perkData);
+                mainCamera.GetComponent<CameraManager>().MoveToPosition2();
+                yield return new WaitForSeconds(waitTime);
+                yield return StartCoroutine(ApplyEffectSquare(squarePerk.perkData));
             }
             else if (perkTransform.TryGetComponent(out TrianglePerkButton trianglePerk))
             {
                 // Wait for 0.5 seconds before applying the effect
                 yield return new WaitForSeconds(waitTime);
+                mainCamera.GetComponent<CameraManager>().MoveToPosition1();
                 yield return StartCoroutine(ApplyEffectTriangle(trianglePerk.perkData));
             }
             else if (perkTransform.TryGetComponent(out CirclePerkButton circlePerk))
             {
                 // Wait for 0.5 seconds before applying the effect
                 yield return new WaitForSeconds(waitTime);
-                ApplyEffectCircle(circlePerk.perkData);
+                mainCamera.GetComponent<CameraManager>().MoveToPosition1();
+                yield return StartCoroutine(ApplyEffectCircle(circlePerk.perkData));
             }
             else
             {
@@ -185,12 +196,12 @@ private IEnumerator ApplyEffectTriangle(PerkData perkData)
             break;
     }
 }
-    private void ApplyEffectCircle(PerkData perkData)
+    private IEnumerator ApplyEffectCircle(PerkData perkData)
     {
         if (perkData == null)
         {
             Debug.LogWarning("PerkData is null.");
-            return;
+            yield break;
         }
 
         switch (perkData.effectKey)
@@ -247,21 +258,30 @@ private IEnumerator ApplyEffectTriangle(PerkData perkData)
                 break;
         }
     }
-    private void ApplyEffectSquare(PerkData perkData)
+    private IEnumerator ApplyEffectSquare(PerkData perkData)
     {
         if (perkData == null)
         {
             Debug.LogWarning("PerkData is null.");
-            return;
+            yield break;
         }
 
         switch (perkData.effectKey)
         {
             case "Example":
                 // Implement speed boost effect
-                Debug.Log("Example");
+                Debug.Log("Activating Example");
                 break;
-
+            case "Lifelink":
+                // Implement speed boost effect
+                Debug.Log("Activating Lifelink");
+                foreach (GameObject block in blockList)
+                {
+                    block.GetComponent<BlockScript>().lifeLink = true;
+                }
+                blockList[0].GetComponent<BlockScript>().CreateLifeLinkVisuals(new List<BlockScript>(FindObjectsOfType<BlockScript>()));
+                
+                break;
             // Add more cases as needed
 
             default:
@@ -286,5 +306,21 @@ public void FindAllBalls()
         }
     }
 }
+public void FindAllBlocks()
+{
+    // Clear the existing list of balls
+    blockList.Clear();
 
+    // Find all GameObjects with the tag "Ball"
+    GameObject[] blockArray = GameObject.FindGameObjectsWithTag("Block");
+
+        foreach (GameObject block in blockArray)
+    {
+        // Add only if the ball is active in the hierarchy
+        if (block != null && block.activeInHierarchy)
+        {
+            blockList.Add(block);
+        }
+    }
+}
 }

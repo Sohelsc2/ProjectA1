@@ -53,7 +53,7 @@ public class BlockCollector : MonoBehaviour
                 {
                     // Instantiate the block at the valid random position
                     GameObject newBlock = Instantiate(blockPrefab, randomPosition, Quaternion.Euler(0, 0, 90));
-
+                    AddLineRendererToBlock(newBlock);
                     // Set the block as a child of the BlockCollector object
                     newBlock.transform.SetParent(transform);
 
@@ -76,7 +76,18 @@ public class BlockCollector : MonoBehaviour
             }
         }
     }
-
+    private void AddLineRendererToBlock(GameObject block)
+{
+    if (!block.TryGetComponent(out LineRenderer lineRenderer))
+    {
+        lineRenderer = block.AddComponent<LineRenderer>();
+        lineRenderer.startWidth = 1f; // Set the width of the line
+        lineRenderer.endWidth = 1f;
+        lineRenderer.material = new Material(Shader.Find("Sprites/Default")); // Create a material for the line
+        lineRenderer.startColor = Color.red;
+        lineRenderer.endColor = Color.red;
+    }
+}
     // Check if the new position is valid (not too close to existing blocks)
     private bool IsPositionValid(Vector3 position, List<Vector3> existingPositions)
     {

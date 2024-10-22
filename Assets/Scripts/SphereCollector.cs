@@ -84,8 +84,6 @@ private IEnumerator MoveBallsCoroutine()
             // Normalize the direction and set the new velocity
         }
 
-        Debug.Log("In this function2");
-
         // Wait
         yield return new WaitForSeconds(0.001f);
     }

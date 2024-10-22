@@ -1025,63 +1025,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 246378868}
   m_CullTransparentMesh: 1
---- !u!1001 &351334538
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    serializedVersion: 3
-    m_TransformParent: {fileID: 389370852}
-    m_Modifications:
-    - target: {fileID: 6531785761472159813, guid: 24f7ce3a92171c849b80a9b252acdba9, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 593
-      objectReference: {fileID: 0}
-    - target: {fileID: 6531785761472159813, guid: 24f7ce3a92171c849b80a9b252acdba9, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: -440.8941
-      objectReference: {fileID: 0}
-    - target: {fileID: 6531785761472159813, guid: 24f7ce3a92171c849b80a9b252acdba9, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6531785761472159813, guid: 24f7ce3a92171c849b80a9b252acdba9, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 6531785761472159813, guid: 24f7ce3a92171c849b80a9b252acdba9, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6531785761472159813, guid: 24f7ce3a92171c849b80a9b252acdba9, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6531785761472159813, guid: 24f7ce3a92171c849b80a9b252acdba9, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6531785761472159813, guid: 24f7ce3a92171c849b80a9b252acdba9, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6531785761472159813, guid: 24f7ce3a92171c849b80a9b252acdba9, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6531785761472159813, guid: 24f7ce3a92171c849b80a9b252acdba9, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6665138645207974322, guid: 24f7ce3a92171c849b80a9b252acdba9, type: 3}
-      propertyPath: m_Name
-      value: SpherePrefab
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-    m_RemovedGameObjects: []
-    m_AddedGameObjects: []
-    m_AddedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: 24f7ce3a92171c849b80a9b252acdba9, type: 3}
 --- !u!1 &359666325
 GameObject:
   m_ObjectHideFlags: 0
@@ -1377,8 +1320,7 @@ Transform:
   m_LocalPosition: {x: 137.73137, y: 514.8941, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 772480530}
+  m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &389370853
@@ -3184,11 +3126,6 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
---- !u!4 &772480530 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 6531785761472159813, guid: 24f7ce3a92171c849b80a9b252acdba9, type: 3}
-  m_PrefabInstance: {fileID: 351334538}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &805446088 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 3324997023575989202, guid: fa0ed2a65f7ab0a4c94fbae5d38cd194, type: 3}
@@ -6202,18 +6139,6 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 648021711}
-        m_TargetAssemblyTypeName: BlockCollector, Assembly-CSharp
-        m_MethodName: SpawnBlocks
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
       - m_Target: {fileID: 389370853}
         m_TargetAssemblyTypeName: SphereCollector, Assembly-CSharp
         m_MethodName: MoveBallsToTarget
@@ -6665,6 +6590,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 2cd2de12e7909a34fbe7baf72a80ed39, type: 2}
   - {fileID: 11400000, guid: 67f51f804ec0e3846bb9f12a06349b3a, type: 2}
   - {fileID: 11400000, guid: 6123b78e1f2f19b4985fd4bfec68f86a, type: 2}
+  - {fileID: 11400000, guid: 9f8780d6585584743841272e0785ec43, type: 2}
   storageManager: {fileID: 1343659517}
 --- !u!4 &1647874156
 Transform:
@@ -8115,7 +8041,10 @@ MonoBehaviour:
   parentObject: {fileID: 657852452}
   diceManager: {fileID: 1645405734}
   sphereCollector: {fileID: 389370853}
+  blockCollector: {fileID: 648021711}
+  mainCamera: {fileID: 963194227}
   ballList: []
+  blockList: []
   waitTime: 1
 --- !u!4 &2102919686
 Transform:
@@ -8601,9 +8530,9 @@ SceneRoots:
   - {fileID: 496544295}
   - {fileID: 1647874156}
   - {fileID: 1343659518}
-  - {fileID: 389370852}
   - {fileID: 1645405735}
   - {fileID: 2102919686}
   - {fileID: 1835581638}
+  - {fileID: 389370852}
   - {fileID: 1229372753}
   - {fileID: 909807897}
