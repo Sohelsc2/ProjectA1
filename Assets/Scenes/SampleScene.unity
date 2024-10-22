@@ -1394,7 +1394,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   spherePrefab: {fileID: 6665138645207974322, guid: 24f7ce3a92171c849b80a9b252acdba9, type: 3}
-  targetPosition: {x: 700, y: 80, z: 0}
+  targetPosition: {x: 1000, y: 80, z: 0}
 --- !u!1 &410474113
 GameObject:
   m_ObjectHideFlags: 0
@@ -2465,10 +2465,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   blockPrefab: {fileID: 2346740137657795549, guid: fa0ed2a65f7ab0a4c94fbae5d38cd194, type: 3}
-  numberOfBlocksY: 5
-  numberOfBlocksX: 5
-  blockSpacingX: 23
-  blockSpacingY: 46
+  totalBlocksToSpawn: 100
+  area1Min: {x: 680, y: 110, z: 0}
+  area1Max: {x: 1320, y: 180, z: 0}
+  area2Min: {x: 680, y: -30, z: 0}
+  area2Max: {x: 1320, y: 40, z: 0}
 --- !u!1 &657852451
 GameObject:
   m_ObjectHideFlags: 0

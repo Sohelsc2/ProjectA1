@@ -59,7 +59,6 @@ private IEnumerator MoveBallsCoroutine()
 {
     // Find all GameObjects with the tag "Sphere"
     GameObject[] balls = GameObject.FindGameObjectsWithTag("Ball");
-    Debug.Log("In this function1");
 
     // Loop through each ball and move them one by one
     foreach (GameObject ball in balls)
@@ -72,7 +71,7 @@ private IEnumerator MoveBallsCoroutine()
 
             // Set the direction to positive x and add a random angle in the y direction
             Vector3 direction = new Vector3(1, 0, 0); // Positive x direction
-            float randomAngle = Random.Range(-45f, 45f); // Random angle in degrees
+            float randomAngle = Random.Range(-180f, 180f); // Random angle in degrees
             ball.transform.position = targetPosition;
             float angleInRadians = randomAngle * Mathf.Deg2Rad;
 
