@@ -7,7 +7,7 @@ public class SphereController : MonoBehaviour
     private Rigidbody rb;
 
     private Vector3 direction;
-    public int damage = 1;
+    public float damage = 1f;
     public int numberOfDamage=2;
     // Control the randomness in reflection
     public float reflectionAngleVariation = 5f; // Angle variation in degrees

@@ -6,7 +6,7 @@ using TMPro;
 public class BlockScript : MonoBehaviour
 {
     // Public block health variable
-    public int blockHealth = 2;
+    public float blockHealth = 2f;
 
     // Reference to the TextMeshPro component for displaying health
     private TextMeshPro healthText;
@@ -29,7 +29,7 @@ public class BlockScript : MonoBehaviour
     }
 
     // Function to apply damage to the block
-    public void TakeDamage(int damage)
+    public void TakeDamage(float damage)
     {
         // Reduce block health
         blockHealth -= damage;
@@ -45,14 +45,21 @@ public class BlockScript : MonoBehaviour
     }
 
     // Function to update the health text
-    private void UpdateHealthDisplay()
+private void UpdateHealthDisplay()
+{
+    if (healthText != null)
     {
-        if (healthText != null)
+        // Display the current health value based on its value
+        if (blockHealth > 10)
         {
-            // Display the current health value on the block
-            healthText.text = blockHealth.ToString();
+            healthText.text = blockHealth.ToString("F0");
+        }
+        else
+        {
+            healthText.text = blockHealth.ToString("F1");
         }
     }
+}
 
     // Function to destroy the block
     private void DestroyBlock()
