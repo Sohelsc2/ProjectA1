@@ -397,6 +397,14 @@ public void StartGame(){
                     StartCoroutine(ball.GetComponent<BallVisuals>().SplashEffect());
                 }
                 break;
+            case "Unbreakable":
+                Debug.Log("Activating Unbreakable");
+                foreach (GameObject ball in ballList)
+                {
+                    ball.GetComponent<SphereController>().unbreakable=true;
+                    ball.GetComponent<SphereController>().unbreakableDuration+=(float)totalDiceValue/10;
+                }
+                break;
 
                 default:
                 Debug.LogWarning($"No effect defined for key: {perkData.effectKey}");

@@ -30,7 +30,10 @@ public class SphereController : MonoBehaviour
     public bool splashDamage = false;
     public float splashDamageRadius = 100f;
     public float splashDamageFactor = 1f;
-
+    //Unbreakable
+    public bool unbreakable = false;
+    public float unbreakableDuration = 0;
+    private float unbreakableTimer = 0;
 public void ApplySplashDamage()
 {
     if(!splashDamage){return;}
@@ -63,6 +66,7 @@ public void ApplySplashDamage()
         direction = new Vector3(Random.Range(-1f, 1f), Random.Range(-1f, 1f), 0).normalized;  
         rb.velocity = direction * speed;
     }
+
     public void IncreaseSpeed(float increaseFactor, bool apply){
         speed *= increaseFactor;
         if(powerOfSpeed && apply){
@@ -134,7 +138,10 @@ public void ApplySplashDamage()
         position.z = 0; // Set Z to 0
         transform.position = position; // Update the position
         UpdateVelocity();
-
+        if(unbreakable && fightHasStarted){
+        unbreakableTimer += Time.deltaTime;
+        if(unbreakableTimer > unbreakableDuration){unbreakable = false;}
+        }
     }
     private void SpeedLust(){
         if(speedLust){
@@ -179,7 +186,7 @@ public void ApplySplashDamage()
     {
         block.TakeDamage(damage);
         ApplySplashDamage();
-        numberOfDamage--;
+        if(!unbreakable){numberOfDamage--;}
     }
     else
     {
