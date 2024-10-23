@@ -6625,6 +6625,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 070bd50330510e447a503f6fef128953, type: 2}
   - {fileID: 11400000, guid: f7888fc787e29874f91be24b36313a2c, type: 2}
   - {fileID: 11400000, guid: 7bca867f3dd8c72479580ba646ecbfdc, type: 2}
+  - {fileID: 11400000, guid: 14d02a90f654ee143b07887ff122b87e, type: 2}
   - {fileID: 11400000, guid: 9f8780d6585584743841272e0785ec43, type: 2}
   storageManager: {fileID: 1343659517}
 --- !u!4 &1647874156

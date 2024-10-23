@@ -388,6 +388,15 @@ public void StartGame(){
                     ball.GetComponent<SphereController>().powerOfSpeed=true;
                 }
                 break;
+            case "SplashDamage":
+                Debug.Log("Activating SplashDamage");
+                foreach (GameObject ball in ballList)
+                {
+                    ball.GetComponent<SphereController>().splashDamage=true;
+                    ball.GetComponent<SphereController>().splashDamageFactor+=(float)totalDiceValue/100;
+                    StartCoroutine(ball.GetComponent<BallVisuals>().SplashEffect());
+                }
+                break;
 
                 default:
                 Debug.LogWarning($"No effect defined for key: {perkData.effectKey}");

@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 2827787049729305428}
   - component: {fileID: 7945248566581864541}
   - component: {fileID: 7650043478302434841}
+  - component: {fileID: -782917554946415213}
   m_Layer: 6
   m_Name: SpherePrefab
   m_TagString: Ball
@@ -161,3 +162,22 @@ MonoBehaviour:
   powerOfChaos: 0
   powerOfChaosFactor: 1
   powerOfSpeed: 0
+  splashDamage: 0
+  splashDamageRadius: 100
+  splashDamageFactor: 1
+--- !u!114 &-782917554946415213
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6665138645207974322}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 45d1a96b1a64b8e4cb0f9f6e22f8f6c1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  splashDamageRadius: 0
+  ballMaterial: {fileID: 2100000, guid: c0e01862ee3f11b45ae2c64b63123a04, type: 2}
+  shatterDuration: 2
+  particleCount: 100

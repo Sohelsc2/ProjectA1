@@ -26,6 +26,33 @@ public class SphereController : MonoBehaviour
     public float powerOfChaosFactor = 1;
     //PowerOfSpeed
     public bool powerOfSpeed = false;
+    //SplashDamage
+    public bool splashDamage = false;
+    public float splashDamageRadius = 100f;
+    public float splashDamageFactor = 1f;
+
+public void ApplySplashDamage()
+{
+    if(!splashDamage){return;}
+    StartCoroutine(transform.GetComponent<BallVisuals>().SplashEffect());
+    // Find all colliders within the radius
+    Collider[] hitColliders = Physics.OverlapSphere(transform.position, splashDamageRadius);
+
+    // Loop through all objects that were hit
+    foreach (Collider hitCollider in hitColliders)
+    {
+        // Check if the object has a health component (or any other condition)
+        BlockScript block = hitCollider.GetComponent<BlockScript>();
+        
+        if (block != null)
+        {
+            // Apply damage to the object
+            block.TakeDamage(splashDamageFactor*damage);
+        }
+    }
+
+    // Optionally, you can add a visual or sound effect here to indicate the explosion
+}
     void Start()
     {
         // Get the Rigidbody component for applying forces
@@ -151,16 +178,22 @@ public class SphereController : MonoBehaviour
     if (numberOfDamage > 1)
     {
         block.TakeDamage(damage);
+        ApplySplashDamage();
         numberOfDamage--;
     }
     else
     {
         block.TakeDamage(damage);
+        ApplySplashDamage();
         Destroy(gameObject);
         yield return null; // Wait for a frame
     }
 }
 
+private void Death(){
+    transform.GetComponent<BallVisuals>().OnDeathEffect();
+    Destroy(gameObject);
+}
     // Function to add a random angle variation to the reflection direction
     private Vector3 AddRandomAngle(Vector3 originalDirection, float maxAngleVariation)
     {
