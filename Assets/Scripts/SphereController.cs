@@ -37,6 +37,21 @@ public class SphereController : MonoBehaviour
     //ExplosiveDeath
     public bool explosiveDeath=false;
     public float explosiveDamageRadius = 100f;
+    //BallSplitting
+    public bool ballSplitting = false;
+    private IEnumerator SplitBall(){
+        if (!ballSplitting){yield return null;}
+        yield return new WaitForSeconds(0.01f);
+        GameObject ballClone = Instantiate(gameObject, transform.position, transform.rotation);
+        ballClone.transform.SetParent(transform.parent);
+        ballClone.GetComponent<SphereController>().AddRandomAngle(ballClone.GetComponent<SphereController>().direction, 20);
+        ballClone.GetComponent<SphereController>().UpdateVelocity();
+        ballClone.transform.localScale *=0.5f;
+        //ballClone.GetComponent<SphereController>().ballSplitting = false;
+        
+        yield return new WaitForSeconds(0.01f);
+        yield return null;
+    }
 public void ApplySplashDamage()
 {
     if(!splashDamage){return;}
@@ -62,7 +77,9 @@ public void ApplySplashDamage()
 public void ApplyExplosiveDeathDamage()
 {
     if(!explosiveDeath){return;}
-    StartCoroutine(transform.GetComponent<BallVisuals>().SplashEffect());
+    //somehow this visual effect is not working in this function:
+    //StartCoroutine(transform.GetComponent<BallVisuals>().SplashEffect());
+
     // Find all colliders within the radius
     Collider[] hitColliders = Physics.OverlapSphere(transform.position, splashDamageRadius);
 
@@ -202,6 +219,7 @@ public void ApplyExplosiveDeathDamage()
                 StartCoroutine(DealDamage(block));
                 SpeedLust();
                 ReflectBall(collision);
+
             }
         }
     }
@@ -212,16 +230,24 @@ public void ApplyExplosiveDeathDamage()
         block.TakeDamage(damage);
         ApplySplashDamage();
         if(!unbreakable){numberOfDamage--;}
+        yield return new WaitForSeconds(0.05f);
+        if(ballSplitting){
+        StartCoroutine(SplitBall());
+        yield return new WaitForSeconds(0.01f);}
     }
-    else
+    else if(numberOfDamage == 0)
     {
+        if(!unbreakable){numberOfDamage--;}
         block.TakeDamage(damage);
         ApplySplashDamage();
+        if(ballSplitting){
+            yield return new WaitForSeconds(0.05f);
+        }
         Death();
         //Destroy(gameObject);
         yield return null; // Wait for a frame
     }
-}
+    }
 
 private void Death(){
     ApplyExplosiveDeathDamage();

@@ -405,6 +405,20 @@ public void StartGame(){
                     ball.GetComponent<SphereController>().unbreakableDuration+=(float)totalDiceValue/10;
                 }
                 break;
+            case "ExplosiveDeath":
+                Debug.Log("Activating ExplosiveDeath");
+                foreach (GameObject ball in ballList)
+                {
+                    ball.GetComponent<SphereController>().explosiveDeath=true;
+                }
+                break;                
+            case "BallSplitting":
+                Debug.Log("Activating BallSplitting");
+                foreach (GameObject ball in ballList)
+                {
+                    ball.GetComponent<SphereController>().ballSplitting=true;
+                }
+                break;
 
                 default:
                 Debug.LogWarning($"No effect defined for key: {perkData.effectKey}");

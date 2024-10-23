@@ -165,6 +165,11 @@ MonoBehaviour:
   splashDamage: 0
   splashDamageRadius: 100
   splashDamageFactor: 1
+  unbreakable: 0
+  unbreakableDuration: 0
+  explosiveDeath: 0
+  explosiveDamageRadius: 100
+  ballSplitting: 0
 --- !u!114 &-782917554946415213
 MonoBehaviour:
   m_ObjectHideFlags: 0
