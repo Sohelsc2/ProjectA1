@@ -5,7 +5,7 @@ public class BlockCollector : MonoBehaviour
 {
     // Prefab of the block to be instantiated
     public GameObject blockPrefab;
-
+    public float minDistance = 50.0f;
     // Total number of blocks to spawn
     public int totalBlocksToSpawn = 10;
 
@@ -91,12 +91,12 @@ public class BlockCollector : MonoBehaviour
     // Check if the new position is valid (not too close to existing blocks)
     private bool IsPositionValid(Vector3 position, List<Vector3> existingPositions)
     {
-        float minDistance = 50.0f; // Minimum distance to prevent overlap (adjust as needed)
+         // Minimum distance to prevent overlap (adjust as needed)
 
         foreach (Vector3 existingPosition in existingPositions)
         {
             // Check the distance to existing positions
-            if (Vector3.Distance(position, existingPosition) < minDistance)
+            if (Vector3.Distance(position, existingPosition) < minDistance )
             {
                 return false; // Position is too close to an existing block
             }
