@@ -116,8 +116,7 @@ private void UpdateHealthDisplay()
 
 public void CreateLifeLinkVisuals(List<BlockScript> allBlocksLocal)
 {
-    Debug.Log("Activating Lifeline visual");
-    
+
     // List to store blocks that have lifeLink = true
     List<BlockScript> lifeLinkedBlocks = new List<BlockScript>();
 

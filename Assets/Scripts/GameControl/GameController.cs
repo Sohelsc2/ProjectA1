@@ -318,6 +318,52 @@ public void StartGame(){
                     ball.GetComponent<SphereController>().speed /= 1+ (float)totalDiceValue/100;
                 }
                 break;
+            case "SpeedLust":
+                Debug.Log("Activating SpeedLust");
+                foreach (GameObject ball in ballList)
+                {
+                    ball.GetComponent<SphereController>().speedLust = true;
+                    ball.GetComponent<SphereController>().speedLustFactor *= 1 + (float)totalDiceValue/100;
+                }
+                break;
+            case "TemporarySpeed":
+                Debug.Log("Activating TemporarySpeed");
+                foreach (GameObject ball in ballList)
+                {
+                    ball.GetComponent<SphereController>().temporarySpeed = true;
+                    ball.GetComponent<SphereController>().temporarySpeedFactor *= 3;
+                    ball.GetComponent<SphereController>().temporarySpeedDuration = (float)totalDiceValue/10;
+                }
+                break;
+            case "TemporaryFreeze":
+                Debug.Log("Activating TemporaryFreeze");
+                foreach (GameObject ball in ballList)
+                {
+                    ball.GetComponent<SphereController>().temporarySpeed = true;
+                    ball.GetComponent<SphereController>().temporarySpeedFactor *= 0;
+                    ball.GetComponent<SphereController>().temporarySpeedDuration = (float)totalDiceValue/10;
+                }
+                break;
+            case "SizeMatters":
+                Debug.Log("Activating SizeMatters");
+                foreach (GameObject ball in ballList)
+                {
+                    float sizeFactor = (1+(float)totalDiceValue/100)*ball.transform.localScale.x;
+                    if (sizeFactor > 50){
+                        sizeFactor = 50;
+                    }
+                    ball.transform.localScale = new Vector3(sizeFactor, sizeFactor, sizeFactor);                }
+                break;
+            case "ShrinkRay":
+                Debug.Log("Activating ShrinkRay");
+                foreach (GameObject ball in ballList)
+                {
+                    float sizeFactor = ball.transform.localScale.x/(1+ (float)totalDiceValue/100);
+                    if (sizeFactor < 5){
+                        sizeFactor = 5;
+                    }
+                    ball.transform.localScale = new Vector3(sizeFactor, sizeFactor, sizeFactor);                }
+                break;
 
                 default:
                 Debug.LogWarning($"No effect defined for key: {perkData.effectKey}");

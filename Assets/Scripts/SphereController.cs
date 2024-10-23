@@ -1,6 +1,7 @@
 using UnityEngine;
 using System.Collections.Generic;
 using System.Collections;
+using Unity.VisualScripting;
 public class SphereController : MonoBehaviour
 {
     public float speed = 5f;  // Speed of the sphere
@@ -11,7 +12,13 @@ public class SphereController : MonoBehaviour
     public int numberOfDamage=2;
     // Control the randomness in reflection
     public float reflectionAngleVariation = 5f; // Angle variation in degrees
-
+    //SpeedLust perk
+    public bool speedLust = false;
+    public float speedLustFactor = 1;
+    //TemporarySpeed Perk:
+    public bool temporarySpeed = true;
+    public float temporarySpeedFactor = 1;    
+    public float temporarySpeedDuration = 0;  
     void Start()
     {
         // Get the Rigidbody component for applying forces
@@ -23,6 +30,37 @@ public class SphereController : MonoBehaviour
         rb.velocity = direction * speed;
     }
 
+    public IEnumerator TemporaryBoostSpeed()
+    {
+        if (temporarySpeed)
+        {
+            if (temporarySpeedFactor > 0){
+                // Increase the speed
+                Debug.Log($"factor: {temporarySpeedFactor}");
+                speed *= temporarySpeedFactor;
+                UpdateVelocity();
+                // Wait for the duration (3 seconds in this case)
+                yield return new WaitForSeconds(temporarySpeedDuration);
+
+                // Reset speed to the original value
+                speed /= temporarySpeedFactor;
+                UpdateVelocity();
+            }
+            else
+            {
+                float originalSpeed = speed;
+                UpdateVelocity();
+                Debug.Log($"original speed: {originalSpeed}");
+                speed = 0;
+                yield return new WaitForSeconds(temporarySpeedDuration);
+                Debug.Log($"original speed: {originalSpeed}");
+                // Reset speed to the original value
+                speed = originalSpeed;
+                yield return null;
+                UpdateVelocity();
+            }
+        }
+    }
     void Update()
     {
         // Ensure the Z coordinate of the sphere remains 0
@@ -32,11 +70,15 @@ public class SphereController : MonoBehaviour
         UpdateVelocity();
 
     }
-
-    void OnCollisionEnter(Collision collision)
-    {
-        if (collision.gameObject.CompareTag("Wall"))
-        {
+    private void SpeedLust(){
+        if(speedLust){
+            Debug.Log($"increasing speed from: {speed}");
+            speed *= speedLustFactor;
+            Debug.Log($"to this new speed: {speed}");
+            UpdateVelocity();
+        }
+    }
+    private void ReflectBall(Collision collision){
             // Reflect the direction vector based on the normal of the surface hit
             Vector3 reflectedDirection = Vector3.Reflect(direction, collision.contacts[0].normal);
 
@@ -46,6 +88,12 @@ public class SphereController : MonoBehaviour
             // Update the direction and apply the new velocity
             direction = reflectedDirection.normalized;
             rb.velocity = direction * speed;
+    }
+    void OnCollisionEnter(Collision collision)
+    {
+        if (collision.gameObject.CompareTag("Wall"))
+        {
+            ReflectBall(collision);
         }
         else if (collision.gameObject.CompareTag("Block"))
         {
@@ -56,13 +104,8 @@ public class SphereController : MonoBehaviour
             {
                 // Decrease the block's health
                 StartCoroutine(DealDamage(block));
-                // Optional: Reflect the object or handle other effects when hitting a block
-                Vector3 reflectedDirection = Vector3.Reflect(direction, collision.contacts[0].normal);
-                reflectedDirection = AddRandomAngle(reflectedDirection, reflectionAngleVariation);
-
-                // Update direction and velocity after hitting the block
-                direction = reflectedDirection.normalized;
-                rb.velocity = direction * speed;
+                SpeedLust();
+                ReflectBall(collision);
             }
         }
     }
@@ -101,8 +144,10 @@ public class SphereController : MonoBehaviour
         return newDirection.normalized; // Return normalized direction
     }
     private void UpdateVelocity(){
-        direction = rb.velocity.normalized;
-        direction = new Vector3(direction.x, direction.y, 0);
+        if (rb.velocity.magnitude > 0){
+            direction = rb.velocity.normalized;
+            direction = new Vector3(direction.x, direction.y, 0);
+        }
         rb.velocity = direction * speed;
     }
 }

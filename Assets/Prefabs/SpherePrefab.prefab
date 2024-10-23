@@ -147,6 +147,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 100
-  damage: 0.9999
-  numberOfDamage: 2
+  speedLust: 0
+  speedLustFactor: 0
+  damage: 0.1
+  numberOfDamage: 10
   reflectionAngleVariation: 10
