@@ -6151,18 +6151,6 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 389370853}
-        m_TargetAssemblyTypeName: SphereCollector, Assembly-CSharp
-        m_MethodName: OnFightStart
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
 --- !u!114 &1628490882
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6620,6 +6608,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 30be752f1ba69da45bdb97633bd425f2, type: 2}
   - {fileID: 11400000, guid: e66c8f627cb087f419fd4c1cf7fb404f, type: 2}
   - {fileID: 11400000, guid: fdd1267a179088140bfdbf98f4f3e139, type: 2}
+  - {fileID: 11400000, guid: 070bd50330510e447a503f6fef128953, type: 2}
   - {fileID: 11400000, guid: 50ee115a379479e4eb8cb067a3ed550d, type: 2}
   - {fileID: 11400000, guid: 9f8780d6585584743841272e0785ec43, type: 2}
   storageManager: {fileID: 1343659517}

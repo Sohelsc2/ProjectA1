@@ -364,6 +364,15 @@ public void StartGame(){
                     }
                     ball.transform.localScale = new Vector3(sizeFactor, sizeFactor, sizeFactor);                }
                 break;
+            case "WildMovement":
+                Debug.Log("Activating WildMovement");
+                foreach (GameObject ball in ballList)
+                {
+                    ball.GetComponent<SphereController>().wildMovement=true;
+                    ball.GetComponent<SphereController>().wildMovementInterval=0.2f;
+                    StartCoroutine(ball.GetComponent<SphereController>().ChangeDirectionRoutine());
+                }
+                break;
 
                 default:
                 Debug.LogWarning($"No effect defined for key: {perkData.effectKey}");

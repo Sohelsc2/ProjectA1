@@ -16,9 +16,12 @@ public class SphereController : MonoBehaviour
     public bool speedLust = false;
     public float speedLustFactor = 1;
     //TemporarySpeed Perk:
-    public bool temporarySpeed = true;
+    public bool temporarySpeed = false;
     public float temporarySpeedFactor = 1;    
-    public float temporarySpeedDuration = 0;  
+    public float temporarySpeedDuration = 0; 
+    //WildMovement
+    public bool wildMovement = false;
+    public float wildMovementInterval = 1;
     void Start()
     {
         // Get the Rigidbody component for applying forces
@@ -36,7 +39,6 @@ public class SphereController : MonoBehaviour
         {
             if (temporarySpeedFactor > 0){
                 // Increase the speed
-                Debug.Log($"factor: {temporarySpeedFactor}");
                 speed *= temporarySpeedFactor;
                 UpdateVelocity();
                 // Wait for the duration (3 seconds in this case)
@@ -59,6 +61,24 @@ public class SphereController : MonoBehaviour
                 yield return null;
                 UpdateVelocity();
             }
+        }
+    }
+        public IEnumerator ChangeDirectionRoutine()
+    {
+        
+        while (wildMovement)
+        {
+        if (this == null || gameObject == null)
+        {
+            // Exit the coroutine if the object or its script is destroyed
+            yield break;
+        }
+            direction = AddRandomAngle(direction, 45);
+            // Update the direction and apply the new velocity
+            direction = direction.normalized;
+            rb.velocity = direction * speed;
+            // Wait for 0.2 seconds before changing the direction
+            yield return new WaitForSeconds(wildMovementInterval); 
         }
     }
     void Update()

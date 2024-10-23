@@ -10,16 +10,8 @@ public class SphereCollector : MonoBehaviour
     {
         InitializeSphere();
     }
-    public void OnFightStart(){
-                // Find all GameObjects with the tag "Sphere"
-        GameObject[] balls = GameObject.FindGameObjectsWithTag("Ball");
-
-        // Loop through the found spheres and destroy them
-        foreach (GameObject ball in balls)
-        {
+    private void OnFightStart(GameObject ball){
             StartCoroutine(ball.GetComponent<SphereController>().TemporaryBoostSpeed());
-        }
-        
     }
     public void InitializeSphere()
     {
@@ -93,7 +85,7 @@ private IEnumerator MoveBallsCoroutine()
 
             // Normalize the direction and set the new velocity
         }
-
+        OnFightStart(ball);
         // Wait
         yield return new WaitForSeconds(0.001f);
     }
