@@ -1,11 +1,10 @@
 using UnityEngine;
-using System.Collections.Generic;
 using System.Collections;
-using Unity.VisualScripting;
 public class SphereController : MonoBehaviour
 {
     public float speed = 5f;  // Speed of the sphere
     private Rigidbody rb;
+    public bool fightHasStarted = false;
 
     private Vector3 direction;
     public float damage = 1f;
@@ -22,6 +21,11 @@ public class SphereController : MonoBehaviour
     //WildMovement
     public bool wildMovement = false;
     public float wildMovementInterval = 1;
+    //PowerOfChaos
+    public bool powerOfChaos = false;
+    public float powerOfChaosFactor = 1;
+    //PowerOfSpeed
+    public bool powerOfSpeed = false;
     void Start()
     {
         // Get the Rigidbody component for applying forces
@@ -32,30 +36,36 @@ public class SphereController : MonoBehaviour
         direction = new Vector3(Random.Range(-1f, 1f), Random.Range(-1f, 1f), 0).normalized;  
         rb.velocity = direction * speed;
     }
-
+    private void IncreaseSpeed(float increaseFactor){
+        speed *= increaseFactor;
+        if(powerOfSpeed && fightHasStarted){
+            damage *= increaseFactor;
+        }
+    }
+    private void DecreaseSpeed(float decreaseFactor){
+        speed /= decreaseFactor;
+    }
     public IEnumerator TemporaryBoostSpeed()
     {
         if (temporarySpeed)
         {
             if (temporarySpeedFactor > 0){
                 // Increase the speed
-                speed *= temporarySpeedFactor;
+                IncreaseSpeed(temporarySpeedFactor);
                 UpdateVelocity();
                 // Wait for the duration (3 seconds in this case)
                 yield return new WaitForSeconds(temporarySpeedDuration);
 
                 // Reset speed to the original value
-                speed /= temporarySpeedFactor;
+                DecreaseSpeed(temporarySpeedFactor);
                 UpdateVelocity();
             }
             else
             {
                 float originalSpeed = speed;
-                UpdateVelocity();
-                Debug.Log($"original speed: {originalSpeed}");
                 speed = 0;
+                UpdateVelocity();
                 yield return new WaitForSeconds(temporarySpeedDuration);
-                Debug.Log($"original speed: {originalSpeed}");
                 // Reset speed to the original value
                 speed = originalSpeed;
                 yield return null;
@@ -92,9 +102,7 @@ public class SphereController : MonoBehaviour
     }
     private void SpeedLust(){
         if(speedLust){
-            Debug.Log($"increasing speed from: {speed}");
-            speed *= speedLustFactor;
-            Debug.Log($"to this new speed: {speed}");
+            IncreaseSpeed(speedLustFactor);
             UpdateVelocity();
         }
     }
@@ -160,8 +168,13 @@ public class SphereController : MonoBehaviour
             originalDirection.x * sinAngle + originalDirection.y * cosAngle,
             0 // Ensure Z is always 0
         );
-
+        PowerOfChaosFunction();
         return newDirection.normalized; // Return normalized direction
+    }
+    private void PowerOfChaosFunction(){
+        if(powerOfChaos && fightHasStarted){
+            damage *= powerOfChaosFactor;
+        }
     }
     private void UpdateVelocity(){
         if (rb.velocity.magnitude > 0){

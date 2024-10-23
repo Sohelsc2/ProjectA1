@@ -373,6 +373,15 @@ public void StartGame(){
                     StartCoroutine(ball.GetComponent<SphereController>().ChangeDirectionRoutine());
                 }
                 break;
+            case "PowerOfChaos":
+                Debug.Log("Activating PowerOfChaos");
+                foreach (GameObject ball in ballList)
+                {
+                    ball.GetComponent<SphereController>().powerOfChaos=true;
+                    ball.GetComponent<SphereController>().powerOfChaosFactor*=1 + (float)totalDiceValue/1000;
+                    StartCoroutine(ball.GetComponent<SphereController>().ChangeDirectionRoutine());
+                }
+                break;
 
                 default:
                 Debug.LogWarning($"No effect defined for key: {perkData.effectKey}");

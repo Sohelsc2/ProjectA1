@@ -1,0 +1,20 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9584698cb4389094c96008aad786a9ac, type: 3}
+  m_Name: Circle12_PowerOfSpeed
+  m_EditorClassIdentifier: 
+  perkName: Power of Speed
+  cost: 2
+  shapeType: 1
+  description: 'Enchants all balls: Whenever the ball''s speed is increased, also
+    increase the damage'
+  effectKey: PowerOfSpeed

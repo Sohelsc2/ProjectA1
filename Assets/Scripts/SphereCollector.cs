@@ -12,6 +12,7 @@ public class SphereCollector : MonoBehaviour
     }
     private void OnFightStart(GameObject ball){
             StartCoroutine(ball.GetComponent<SphereController>().TemporaryBoostSpeed());
+            ball.GetComponent<SphereController>().fightHasStarted = true;
     }
     public void InitializeSphere()
     {
