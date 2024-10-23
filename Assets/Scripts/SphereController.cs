@@ -36,13 +36,13 @@ public class SphereController : MonoBehaviour
         direction = new Vector3(Random.Range(-1f, 1f), Random.Range(-1f, 1f), 0).normalized;  
         rb.velocity = direction * speed;
     }
-    private void IncreaseSpeed(float increaseFactor){
+    public void IncreaseSpeed(float increaseFactor, bool apply){
         speed *= increaseFactor;
-        if(powerOfSpeed && fightHasStarted){
+        if(powerOfSpeed && apply){
             damage *= increaseFactor;
         }
     }
-    private void DecreaseSpeed(float decreaseFactor){
+    public void DecreaseSpeed(float decreaseFactor){
         speed /= decreaseFactor;
     }
     public IEnumerator TemporaryBoostSpeed()
@@ -51,11 +51,15 @@ public class SphereController : MonoBehaviour
         {
             if (temporarySpeedFactor > 0){
                 // Increase the speed
-                IncreaseSpeed(temporarySpeedFactor);
+                IncreaseSpeed(temporarySpeedFactor, true);
                 UpdateVelocity();
                 // Wait for the duration (3 seconds in this case)
                 yield return new WaitForSeconds(temporarySpeedDuration);
-
+                if (this == null || gameObject == null)
+                    {
+                        // Exit the coroutine if the object or its script is destroyed
+                        yield break;
+                    }
                 // Reset speed to the original value
                 DecreaseSpeed(temporarySpeedFactor);
                 UpdateVelocity();
@@ -67,6 +71,11 @@ public class SphereController : MonoBehaviour
                 UpdateVelocity();
                 yield return new WaitForSeconds(temporarySpeedDuration);
                 // Reset speed to the original value
+                if (this == null || gameObject == null)
+                    {
+                        // Exit the coroutine if the object or its script is destroyed
+                        yield break;
+                    }
                 speed = originalSpeed;
                 yield return null;
                 UpdateVelocity();
@@ -102,7 +111,7 @@ public class SphereController : MonoBehaviour
     }
     private void SpeedLust(){
         if(speedLust){
-            IncreaseSpeed(speedLustFactor);
+            IncreaseSpeed(speedLustFactor, fightHasStarted);
             UpdateVelocity();
         }
     }

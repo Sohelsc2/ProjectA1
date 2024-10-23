@@ -308,14 +308,15 @@ public void StartGame(){
                 Debug.Log("Activating SpeedBurst");
                 foreach (GameObject ball in ballList)
                 {
-                    ball.GetComponent<SphereController>().speed *= 1+ (float)totalDiceValue/100;
+                    ball.GetComponent<SphereController>().IncreaseSpeed(1+ (float)totalDiceValue/100, true);
+                     
                 }
                 break;
             case "SlowMotion":
                 Debug.Log("Activating SlowMotion");
                 foreach (GameObject ball in ballList)
                 {
-                    ball.GetComponent<SphereController>().speed /= 1+ (float)totalDiceValue/100;
+                    ball.GetComponent<SphereController>().DecreaseSpeed(1+ (float)totalDiceValue/100);
                 }
                 break;
             case "SpeedLust":
@@ -323,7 +324,7 @@ public void StartGame(){
                 foreach (GameObject ball in ballList)
                 {
                     ball.GetComponent<SphereController>().speedLust = true;
-                    ball.GetComponent<SphereController>().speedLustFactor *= 1 + (float)totalDiceValue/100;
+                    ball.GetComponent<SphereController>().speedLustFactor *= 1 + (float)totalDiceValue/1000;
                 }
                 break;
             case "TemporarySpeed":
@@ -365,7 +366,7 @@ public void StartGame(){
                     ball.transform.localScale = new Vector3(sizeFactor, sizeFactor, sizeFactor);                }
                 break;
             case "WildMovement":
-                Debug.Log("Activating WildMovement");
+                Debug.Log("Activating WildMovement MIGHT BE BUGGED");
                 foreach (GameObject ball in ballList)
                 {
                     ball.GetComponent<SphereController>().wildMovement=true;
@@ -378,8 +379,13 @@ public void StartGame(){
                 foreach (GameObject ball in ballList)
                 {
                     ball.GetComponent<SphereController>().powerOfChaos=true;
-                    ball.GetComponent<SphereController>().powerOfChaosFactor*=1 + (float)totalDiceValue/1000;
-                    StartCoroutine(ball.GetComponent<SphereController>().ChangeDirectionRoutine());
+                }
+                break;
+            case "PowerOfSpeed":
+                Debug.Log("Activating PowerOfSpeed");
+                foreach (GameObject ball in ballList)
+                {
+                    ball.GetComponent<SphereController>().powerOfSpeed=true;
                 }
                 break;
 

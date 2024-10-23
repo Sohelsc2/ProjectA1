@@ -147,8 +147,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 100
-  speedLust: 0
-  speedLustFactor: 0
+  fightHasStarted: 0
   damage: 0.1
   numberOfDamage: 10
   reflectionAngleVariation: 10
+  speedLust: 0
+  speedLustFactor: 1
+  temporarySpeed: 0
+  temporarySpeedFactor: 1
+  temporarySpeedDuration: 0
+  wildMovement: 0
+  wildMovementInterval: 1
+  powerOfChaos: 0
+  powerOfChaosFactor: 1
+  powerOfSpeed: 0
