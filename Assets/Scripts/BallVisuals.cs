@@ -88,54 +88,79 @@ public IEnumerator SplashEffect()
     public void OnDeathEffect()
     {
         GameObject shatterEffect = CreateShatterEffect();
-        Destroy(shatterEffect, shatterDuration); // Automatically destroy the effect after its lifetime
+        StartCoroutine(DestroyEffectAfterDuration(shatterEffect, shatterDuration));
     }
 
     private GameObject CreateShatterEffect()
     {
-        // Create a new GameObject to hold the Particle System
+        // Create a new GameObject for the particle system.
         GameObject shatterEffectObject = new GameObject("ShatterEffect");
 
-        // Position the shatter effect where the ball was
+        // Position the shatter effect at the ball's location.
         shatterEffectObject.transform.position = transform.position;
 
-        // Add a Particle System component
+        // Add a Particle System component.
         ParticleSystem particleSystem = shatterEffectObject.AddComponent<ParticleSystem>();
 
-        // Configure the particle system
+        // Stop the particle system before setting properties.
+        particleSystem.Stop(true, ParticleSystemStopBehavior.StopEmittingAndClear);
+
+        // Configure the particle system.
         var mainModule = particleSystem.main;
-        mainModule.duration = shatterDuration;       // How long the particle system runs
-        mainModule.startLifetime = shatterDuration;  // How long each particle lives
-        mainModule.startSpeed = 2.0f;                // Initial speed of the particles
-        mainModule.startSize = 0.1f;                 // Size of the particles (adjust as needed)
-        mainModule.gravityModifier = 1.0f;           // Gravity effect on particles, to make them fall
-        mainModule.maxParticles = particleCount;     // Number of particles to emit
+        mainModule.duration = shatterDuration;       // Set the duration.
+        mainModule.startLifetime = shatterDuration;  // Lifetime of each particle.
+        mainModule.startSpeed = 2.0f;                // Initial speed of particles.
+        mainModule.startSize = 1f;                 // Size of each particle.
+        mainModule.gravityModifier = 1.0f;           // Apply gravity to particles.
+        mainModule.maxParticles = particleCount;     // Number of particles.
+        mainModule.loop = false;                     // No looping.
 
-        // Set the material for the particle system to use the ball's material
+        // Set the material for the particle system.
         var rendererModule = particleSystem.GetComponent<ParticleSystemRenderer>();
-        rendererModule.material = ballMaterial; // Assuming the ball material is already assigned
+        rendererModule.material = ballMaterial;
 
-        // Configure the emission to emit a burst of particles
+        // Configure the emission for a burst of particles.
         var emissionModule = particleSystem.emission;
-        emissionModule.rateOverTime = 0; // No continuous emission
+        emissionModule.rateOverTime = 0; // No continuous emission.
         emissionModule.SetBursts(new ParticleSystem.Burst[] {
-            new ParticleSystem.Burst(0f, particleCount) // Emit all particles in one burst
+            new ParticleSystem.Burst(0f, particleCount) // Emit all particles in one burst.
         });
 
-        // Configure the particle shape to explode outwards from a sphere
+        // Configure the particle shape to explode outward from a sphere.
         var shapeModule = particleSystem.shape;
         shapeModule.shapeType = ParticleSystemShapeType.Sphere;
-        shapeModule.radius = 0.5f; // Adjust to match the size of the ball
+        shapeModule.radius = 0.5f; // Adjust the radius to match the ball size.
 
-        // Add some randomness to the velocity of the particles
+        // Configure velocity over lifetime so particles fall downward (-y direction).
         var velocityOverLifetimeModule = particleSystem.velocityOverLifetime;
         velocityOverLifetimeModule.enabled = true;
         velocityOverLifetimeModule.space = ParticleSystemSimulationSpace.Local;
-        velocityOverLifetimeModule.y = new ParticleSystem.MinMaxCurve(-2f, -5f); // Particles fall downwards (-y)
 
-        // Start the particle system
+        // Set downward velocity using MinMaxCurve for all axes.
+        velocityOverLifetimeModule.x = new ParticleSystem.MinMaxCurve(0f, 1f);  // Slight horizontal movement.
+        velocityOverLifetimeModule.y = new ParticleSystem.MinMaxCurve(-5f, -2f); // Downward velocity.
+        velocityOverLifetimeModule.z = new ParticleSystem.MinMaxCurve(0f, 1f);  // Slight forward/backward movement.
+
+        // Start the particle system.
         particleSystem.Play();
 
         return shatterEffectObject;
+    }
+
+    // Coroutine to wait and destroy the effect after its duration.
+    private IEnumerator DestroyEffectAfterDuration(GameObject effectObject, float duration)
+    {
+        // Wait for the effect's duration.
+        yield return new WaitForSeconds(duration);
+
+        // Stop and clear the particle system.
+        ParticleSystem particleSystem = effectObject.GetComponent<ParticleSystem>();
+        if (particleSystem != null)
+        {
+            particleSystem.Stop(true, ParticleSystemStopBehavior.StopEmittingAndClear);
+        }
+
+        // Destroy the particle system GameObject.
+        Destroy(effectObject);
     }
 }
